@@ -39,13 +39,14 @@ Requisitos: Git, Docker Desktop (en marcha) y Python 3.11 o superior.
 
 1. Clonar el repositorio.
 2. Copiar `.env.example` como `.env` y definir las contraseñas (si los puertos 5432 o 3000 ya están ocupados en tu equipo, cambia `POSTGRES_PORT` y `GRAFANA_PORT`).
-3. Levantar la base de datos: `docker compose up -d --wait` (crea las tablas y los datos fijos solo la primera vez).
+3. Levantar PostgreSQL y Grafana con un solo comando: `docker compose up -d --wait` (crea las tablas y los datos fijos solo la primera vez, y Grafana carga solo su fuente de datos, tablero y alerta).
 4. Crear el entorno de Python e instalar las librerías:
    `python -m venv .venv` y `.venv\Scripts\python -m pip install -r etl\requirements.txt`
 5. Ejecutar el ETL: `.venv\Scripts\python etl\main.py`. Termina con `TODO CUADRA` y escribe [`docs/validacion_etl.md`](docs/validacion_etl.md).
-6. Abrir el proyecto de Power BI en `powerbi/` y Grafana en `http://localhost:<GRAFANA_PORT>` _(pendiente)_.
+6. Grafana ya quedó levantado en el paso 3 con su fuente de datos, tablero y alerta cargados solos: `http://localhost:<GRAFANA_PORT>` (usuario y contraseña `GF_SECURITY_ADMIN_*` del `.env`). Para ver datos en movimiento: `.venv\Scripts\python simulacion\simular.py`.
+7. Abrir el proyecto de Power BI: `powerbi/BI_Vinilos.pbip` (ver [`powerbi/README.md`](powerbi/README.md)).
 
-Más detalle del ETL en [`etl/README.md`](etl/README.md).
+Más detalle: [ETL](etl/README.md) · [Simulación](simulacion/README.md) · [Grafana](grafana/README.md) · [Power BI](powerbi/README.md).
 
 ## Documentación
 

@@ -22,5 +22,31 @@ services:
       timeout: 5s
       retries: 10
 
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: bi_vinilos_grafana
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"                        # nadie se registra solo
+      GF_AUTH_ANONYMOUS_ENABLED: "false"                     # acceso solo con usuario y contrasena
+      GF_ALERTING_ENABLED: "false"                           # se usa la alerta unificada (la nueva)
+      GF_UNIFIED_ALERTING_ENABLED: "true"
+      # Variables que lee el provisioning de la fuente de datos (grafana/provisioning/datasources)
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana                        # persistencia de usuarios y estado
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro  # fuente de datos, tableros y alertas automaticos
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro  # tablero exportado (JSON)
+
 volumes:
   pgdata:
+  grafana-data:

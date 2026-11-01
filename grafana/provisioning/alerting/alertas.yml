@@ -1,0 +1,71 @@
+# Regla de alerta cargada automaticamente.
+#
+# Que vigila: los minutos de paro por lectura (cada lectura = una hora de produccion) de cada maquina.
+# Cuando salta: si en las 2 ultimas lecturas seguidas la maquina estuvo parada MAS de 30 minutos.
+#
+# Por que ese umbral: mas de 30 min de paro en una hora significa perder mas de la mitad de la
+# hora (disponibilidad horaria por debajo de 50 %). Exigir 2 lecturas seguidas evita avisar por un
+# paro corto aislado (los ajustes y limpiezas de 5 a 20 min son normales y no requieren a mantenimiento).
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: Paros de maquinas
+    folder: BI Vinilos
+    interval: 10s
+    rules:
+      - uid: paro-prolongado
+        title: Paro prolongado en maquina
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            datasourceUid: bi-vinilos-pg
+            model:
+              refId: A
+              editorMode: code
+              format: time_series
+              rawQuery: true
+              rawSql: |
+                -- La columna "maquina" (texto) pasa a ser una etiqueta: una alerta independiente por maquina.
+                SELECT now() AS time, m.nombre AS maquina, min(x.minutos_paro) AS value
+                FROM (
+                  SELECT maquina_key, minutos_paro,
+                         row_number() OVER (PARTITION BY maquina_key ORDER BY fecha_hora DESC) AS rn
+                  FROM dw.fact_registro_horario
+                  WHERE fecha_hora > now() AT TIME ZONE 'UTC' - interval '1 hour'
+                ) x
+                JOIN dw.dim_maquina m USING (maquina_key)
+                WHERE x.rn <= 2
+                GROUP BY m.nombre
+                HAVING count(*) = 2
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              expression: A
+              reducer: last
+              settings:
+                mode: dropNN
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: B
+              conditions:
+                - evaluator:
+                    type: gt
+                    params: [30]
+        noDataState: OK
+        execErrState: Error
+        for: 0s
+        annotations:
+          summary: "{{ $labels.maquina }} lleva 2 lecturas seguidas con mas de 30 min de paro"
+          descripcion: >-
+            Posible falla. Revisar la causa en el panel "Ultimas lecturas" y avisar a mantenimiento.
+        labels:
+          severidad: alta

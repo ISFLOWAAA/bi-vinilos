@@ -1,0 +1,20 @@
+# Fuente de datos que Grafana crea sola al iniciar. Las credenciales salen de variables
+# de entorno (archivo .env), nunca se escriben aqui.
+apiVersion: 1
+
+datasources:
+  - name: BI Vinilos (PostgreSQL)
+    uid: bi-vinilos-pg
+    type: postgres
+    access: proxy
+    url: postgres:5432            # nombre del servicio en docker-compose (red interna)
+    user: ${POSTGRES_USER}
+    isDefault: true
+    editable: false
+    jsonData:
+      database: ${POSTGRES_DB}
+      sslmode: disable
+      postgresVersion: 1600
+      timescaledb: false
+    secureJsonData:
+      password: ${POSTGRES_PASSWORD}

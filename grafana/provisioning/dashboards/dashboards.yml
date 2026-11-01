@@ -1,0 +1,12 @@
+# Le dice a Grafana donde estan los tableros (JSON) para cargarlos al iniciar.
+apiVersion: 1
+
+providers:
+  - name: BI Vinilos
+    folder: BI Vinilos
+    type: file
+    disableDeletion: true
+    allowUiUpdates: false
+    updateIntervalSeconds: 30
+    options:
+      path: /var/lib/grafana/dashboards
