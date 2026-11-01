@@ -1,0 +1,28 @@
+table dim_operario
+
+	column operario_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: operario_key
+		summarizeBy: none
+
+	column codigo_seudonimo
+		dataType: string
+		sourceColumn: codigo_seudonimo
+		summarizeBy: none
+
+	column activo
+		dataType: boolean
+		sourceColumn: activo
+		summarizeBy: none
+
+	partition dim_operario = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_operario"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"operario_key", Int64.Type}, {"codigo_seudonimo", type text}, {"activo", type logical}})
+			in
+			    Tipos

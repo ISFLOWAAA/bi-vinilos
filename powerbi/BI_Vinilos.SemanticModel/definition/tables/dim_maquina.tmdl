@@ -1,0 +1,28 @@
+table dim_maquina
+
+	column maquina_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: maquina_key
+		summarizeBy: none
+
+	column nombre
+		dataType: string
+		sourceColumn: nombre
+		summarizeBy: none
+
+	column linea_producto
+		dataType: string
+		sourceColumn: linea_producto
+		summarizeBy: none
+
+	partition dim_maquina = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_maquina"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"maquina_key", Int64.Type}, {"nombre", type text}, {"linea_producto", type text}})
+			in
+			    Tipos

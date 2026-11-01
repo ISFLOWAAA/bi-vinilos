@@ -1,0 +1,23 @@
+table dim_area_involucrada
+
+	column area_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: area_key
+		summarizeBy: none
+
+	column nombre
+		dataType: string
+		sourceColumn: nombre
+		summarizeBy: none
+
+	partition dim_area_involucrada = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_area_involucrada"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"area_key", Int64.Type}, {"nombre", type text}})
+			in
+			    Tipos

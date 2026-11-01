@@ -1,0 +1,18 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+
+ref table dim_fecha
+ref table dim_maquina
+ref table dim_turno
+ref table dim_referencia
+ref table dim_operario
+ref table dim_paro
+ref table dim_area_involucrada
+ref table dim_meta_velocidad
+ref table fact_produccion
+ref table fact_paro
+
+ref expression Servidor
+ref expression BaseDatos

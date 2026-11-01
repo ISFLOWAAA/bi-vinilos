@@ -1,0 +1,138 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "drill",
+  "position": {
+    "x": 880,
+    "y": 185,
+    "z": 0,
+    "height": 515,
+    "width": 380,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_paro"
+                    }
+                  },
+                  "Property": "area_impacto"
+                }
+              },
+              "queryRef": "dim_paro.area_impacto",
+              "nativeQueryRef": "area_impacto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_paro"
+                    }
+                  },
+                  "Property": "nombre_codigo"
+                }
+              },
+              "queryRef": "dim_paro.nombre_codigo",
+              "nativeQueryRef": "nombre_codigo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_paro"
+                    }
+                  },
+                  "Property": "subsistema_nombre"
+                }
+              },
+              "queryRef": "dim_paro.subsistema_nombre",
+              "nativeQueryRef": "subsistema_nombre"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_paro"
+                    }
+                  },
+                  "Property": "detalle_nombre"
+                }
+              },
+              "queryRef": "dim_paro.detalle_nombre",
+              "nativeQueryRef": "detalle_nombre"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_produccion"
+                    }
+                  },
+                  "Property": "Horas de paro"
+                }
+              },
+              "queryRef": "fact_produccion.Horas de paro",
+              "nativeQueryRef": "Horas de paro"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_produccion"
+                  }
+                },
+                "Property": "Horas de paro"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Drill-down: area > codigo > subsistema > detalle'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+table dim_turno
+
+	column turno_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: turno_key
+		summarizeBy: none
+
+	column nombre
+		dataType: string
+		sourceColumn: nombre
+		summarizeBy: none
+
+	column tipo_turno
+		dataType: string
+		sourceColumn: tipo_turno
+		summarizeBy: none
+
+	column hora_inicio
+		dataType: string
+		sourceColumn: hora_inicio
+		summarizeBy: none
+
+	column hora_fin
+		dataType: string
+		sourceColumn: hora_fin
+		summarizeBy: none
+
+	column duracion_horas
+		dataType: double
+		formatString: #,0.00
+		sourceColumn: duracion_horas
+		summarizeBy: none
+
+	partition dim_turno = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_turno"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"turno_key", Int64.Type}, {"nombre", type text}, {"tipo_turno", type text}, {"hora_inicio", type text}, {"hora_fin", type text}, {"duracion_horas", type number}})
+			in
+			    Tipos

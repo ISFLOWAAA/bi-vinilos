@@ -34,3 +34,6 @@ desktop.ini
 
 # --- Pruebas ---
 .pytest_cache/
+
+# --- Simulacion: bandera local para provocar una falla en la demo ---
+simulacion/falla.flag

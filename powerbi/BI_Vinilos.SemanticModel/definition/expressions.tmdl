@@ -1,0 +1,5 @@
+expression Servidor = "localhost:5433" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	description: Direccion y puerto de PostgreSQL (el puerto es POSTGRES_PORT del .env)
+
+expression BaseDatos = "bi_vinilos" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	description: Nombre de la base de datos (POSTGRES_DB del .env)

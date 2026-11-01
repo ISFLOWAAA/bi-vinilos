@@ -1,0 +1,53 @@
+table dim_meta_velocidad
+
+	column meta_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: meta_key
+		summarizeBy: none
+
+	column maquina_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: maquina_key
+		summarizeBy: none
+
+	column referencia_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: referencia_key
+		summarizeBy: none
+
+	column pacas_por_hora
+		dataType: double
+		formatString: #,0.00
+		sourceColumn: pacas_por_hora
+		summarizeBy: none
+
+	column vigente_desde
+		dataType: dateTime
+		sourceColumn: vigente_desde
+		summarizeBy: none
+
+	column vigente_hasta
+		dataType: dateTime
+		sourceColumn: vigente_hasta
+		summarizeBy: none
+
+	column es_vigente
+		dataType: boolean
+		sourceColumn: es_vigente
+		summarizeBy: none
+
+	partition dim_meta_velocidad = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_meta_velocidad"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"meta_key", Int64.Type}, {"maquina_key", Int64.Type}, {"referencia_key", Int64.Type}, {"pacas_por_hora", type number}, {"vigente_desde", type date}, {"vigente_hasta", type date}, {"es_vigente", type logical}})
+			in
+			    Tipos

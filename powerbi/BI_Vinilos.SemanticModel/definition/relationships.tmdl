@@ -1,0 +1,51 @@
+relationship r_fact_produccion_dim_fecha
+	fromColumn: fact_produccion.fecha_key
+	toColumn: dim_fecha.fecha_key
+
+relationship r_fact_produccion_dim_maquina
+	fromColumn: fact_produccion.maquina_key
+	toColumn: dim_maquina.maquina_key
+
+relationship r_fact_produccion_dim_turno
+	fromColumn: fact_produccion.turno_key
+	toColumn: dim_turno.turno_key
+
+relationship r_fact_produccion_dim_referencia
+	fromColumn: fact_produccion.referencia_key
+	toColumn: dim_referencia.referencia_key
+
+relationship r_fact_produccion_dim_operario
+	fromColumn: fact_produccion.operario_key
+	toColumn: dim_operario.operario_key
+
+relationship r_fact_produccion_dim_meta_velocidad
+	fromColumn: fact_produccion.meta_key
+	toColumn: dim_meta_velocidad.meta_key
+
+relationship r_fact_paro_dim_fecha
+	fromColumn: fact_paro.fecha_key
+	toColumn: dim_fecha.fecha_key
+
+relationship r_fact_paro_dim_maquina
+	fromColumn: fact_paro.maquina_key
+	toColumn: dim_maquina.maquina_key
+
+relationship r_fact_paro_dim_turno
+	fromColumn: fact_paro.turno_key
+	toColumn: dim_turno.turno_key
+
+relationship r_fact_paro_dim_referencia
+	fromColumn: fact_paro.referencia_key
+	toColumn: dim_referencia.referencia_key
+
+relationship r_fact_paro_dim_operario
+	fromColumn: fact_paro.operario_key
+	toColumn: dim_operario.operario_key
+
+relationship r_fact_paro_dim_paro
+	fromColumn: fact_paro.paro_key
+	toColumn: dim_paro.paro_key
+
+relationship r_fact_paro_dim_area_involucrada
+	fromColumn: fact_paro.area_key
+	toColumn: dim_area_involucrada.area_key

@@ -1,0 +1,69 @@
+table dim_paro
+
+	column paro_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceColumn: paro_key
+		summarizeBy: none
+
+	column area_impacto
+		dataType: string
+		sourceColumn: area_impacto
+		summarizeBy: none
+
+	column codigo_paro
+		dataType: int64
+		formatString: 0
+		sourceColumn: codigo_paro
+		summarizeBy: none
+
+	column nombre_codigo
+		dataType: string
+		sourceColumn: nombre_codigo
+		summarizeBy: none
+
+	column es_programado
+		dataType: boolean
+		sourceColumn: es_programado
+		summarizeBy: none
+
+	column subsistema_codigo
+		dataType: string
+		sourceColumn: subsistema_codigo
+		summarizeBy: none
+
+	column subsistema_nombre
+		dataType: string
+		sourceColumn: subsistema_nombre
+		summarizeBy: none
+
+	column detalle_codigo
+		dataType: string
+		sourceColumn: detalle_codigo
+		summarizeBy: none
+
+	column detalle_nombre
+		dataType: string
+		sourceColumn: detalle_nombre
+		summarizeBy: none
+
+	hierarchy 'Jerarquia de paros'
+		level 'Area de impacto'
+			column: area_impacto
+		level 'Codigo de paro'
+			column: nombre_codigo
+		level Subsistema
+			column: subsistema_nombre
+		level Detalle
+			column: detalle_nombre
+
+	partition dim_paro = m
+		mode: import
+		source =
+			let
+			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+			    Tabla = Origen{[Schema = "dw", Item = "dim_paro"]}[Data],
+			    Tipos = Table.TransformColumnTypes(Tabla, {{"paro_key", Int64.Type}, {"area_impacto", type text}, {"codigo_paro", Int64.Type}, {"nombre_codigo", type text}, {"es_programado", type logical}, {"subsistema_codigo", type text}, {"subsistema_nombre", type text}, {"detalle_codigo", type text}, {"detalle_nombre", type text}})
+			in
+			    Tipos
