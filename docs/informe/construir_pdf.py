@@ -84,6 +84,7 @@ CAPITULOS = [
     "docs/comparativo_power_bi_grafana.md",
     "docs/evolucion_plc_scada.md",
     "docs/seguridad_datos_personales.md",
+    "docs/configuracion.md",
 ]
 
 
@@ -193,7 +194,7 @@ def capturas_grafana() -> str:
 
 def repositorio() -> str:
     readme = (RAIZ / "README.md").read_text(encoding="utf-8")
-    m = re.search(r"## Estructura del repositorio.*?(?=## Tecnolog)", readme, flags=re.S)
+    m = re.search(r"## Qué hay en el repositorio.*?(?=## Documentación)", readme, flags=re.S)
     cuerpo = markdown.markdown(m.group(0) if m else "", extensions=["tables", "fenced_code", "sane_lists"])
     cuerpo = re.sub(r'<a href="(?!https?:)[^"]*">(.*?)</a>', r"<span>\1</span>", cuerpo, flags=re.S)
     log = subprocess.run(["git", "-C", str(RAIZ), "shortlog", "-sne", "HEAD"], capture_output=True, text=True).stdout.strip()
