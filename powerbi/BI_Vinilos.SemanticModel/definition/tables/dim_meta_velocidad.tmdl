@@ -1,53 +1,84 @@
 table dim_meta_velocidad
+	lineageTag: 56b146e1-1c29-4b59-b187-cd42cb3555d2
 
 	column meta_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: meta_key
+		lineageTag: 9a309edb-5545-42dc-904c-f41e9b87f74e
 		summarizeBy: none
+		sourceColumn: meta_key
 
 	column maquina_key
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: 60be8d62-d7b4-4a79-af1b-ee5619b8872b
+		summarizeBy: sum
 		sourceColumn: maquina_key
-		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	column referencia_key
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: 7bd500c0-56cd-4e72-9484-e0baa525a2bc
+		summarizeBy: sum
 		sourceColumn: referencia_key
-		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	column pacas_por_hora
 		dataType: double
 		formatString: #,0.00
+		lineageTag: 36a088bd-00a6-43bc-a30e-1f1065ed1f6b
+		summarizeBy: sum
 		sourceColumn: pacas_por_hora
-		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	column vigente_desde
 		dataType: dateTime
-		sourceColumn: vigente_desde
+		formatString: Long Date
+		lineageTag: 544be12c-da96-4f42-93fa-375f495fea8c
 		summarizeBy: none
+		sourceColumn: vigente_desde
+
+		variation Variación
+			isDefault
+			relationship: f6d8927d-c1e2-4fd2-9ae9-55b51837a4ee
+			defaultHierarchy: LocalDateTable_3adadece-83a8-4df7-8e64-dd0ea369cfae.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column vigente_hasta
 		dataType: dateTime
-		sourceColumn: vigente_hasta
+		formatString: Long Date
+		lineageTag: cf123801-167e-4818-b615-6643c40a5131
 		summarizeBy: none
+		sourceColumn: vigente_hasta
+
+		variation Variación
+			isDefault
+			relationship: ea7ab4ee-de98-4c6d-957b-9fae1e652239
+			defaultHierarchy: LocalDateTable_b8bff75b-61df-454a-b8ef-4bd6500f61aa.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column es_vigente
 		dataType: boolean
-		sourceColumn: es_vigente
+		lineageTag: 5424339e-123b-484e-929e-c101fc64812b
 		summarizeBy: none
+		sourceColumn: es_vigente
 
 	partition dim_meta_velocidad = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_meta_velocidad"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"meta_key", Int64.Type}, {"maquina_key", Int64.Type}, {"referencia_key", Int64.Type}, {"pacas_por_hora", type number}, {"vigente_desde", type date}, {"vigente_hasta", type date}, {"es_vigente", type logical}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_meta_velocidad"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"meta_key", Int64.Type}, {"maquina_key", Int64.Type}, {"referencia_key", Int64.Type}, {"pacas_por_hora", type number}, {"vigente_desde", type date}, {"vigente_hasta", type date}, {"es_vigente", type logical}})
+				in
+				    Tipos
+

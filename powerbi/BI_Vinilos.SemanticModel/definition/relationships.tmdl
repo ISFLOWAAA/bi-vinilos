@@ -49,3 +49,14 @@ relationship r_fact_paro_dim_paro
 relationship r_fact_paro_dim_area_involucrada
 	fromColumn: fact_paro.area_key
 	toColumn: dim_area_involucrada.area_key
+
+relationship f6d8927d-c1e2-4fd2-9ae9-55b51837a4ee
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_meta_velocidad.vigente_desde
+	toColumn: LocalDateTable_3adadece-83a8-4df7-8e64-dd0ea369cfae.Date
+
+relationship ea7ab4ee-de98-4c6d-957b-9fae1e652239
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_meta_velocidad.vigente_hasta
+	toColumn: LocalDateTable_b8bff75b-61df-454a-b8ef-4bd6500f61aa.Date
+

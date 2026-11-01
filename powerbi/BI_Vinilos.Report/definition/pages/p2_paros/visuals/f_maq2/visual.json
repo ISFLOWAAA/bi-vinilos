@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "f_maq2",
   "position": {
-    "x": 240,
-    "y": 136,
+    "x": 240.23807460056051,
+    "y": 136.0954609806131,
     "z": 0,
-    "height": 60,
-    "width": 200,
-    "tabOrder": 0
+    "height": 75.740082632689038,
+    "width": 200.00115570194447
   },
   "visual": {
     "visualType": "slicer",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Values": {
@@ -28,7 +26,8 @@
                 }
               },
               "queryRef": "dim_maquina.nombre",
-              "nativeQueryRef": "nombre"
+              "nativeQueryRef": "nombre",
+              "active": true
             }
           ]
         }
@@ -55,6 +54,25 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2873adf0918ed03b3931",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_maquina"
+              }
+            },
+            "Property": "nombre"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

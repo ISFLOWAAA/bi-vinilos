@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "f_anio2",
   "position": {
-    "x": 24,
-    "y": 136,
+    "x": 23.668775822715322,
+    "y": 136.0954609806131,
     "z": 0,
-    "height": 60,
-    "width": 200,
-    "tabOrder": 0
+    "height": 75.740082632689038,
+    "width": 201.18459449308023
   },
   "visual": {
     "visualType": "slicer",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Values": {
@@ -28,7 +26,8 @@
                 }
               },
               "queryRef": "dim_fecha.anio",
-              "nativeQueryRef": "anio"
+              "nativeQueryRef": "anio",
+              "active": true
             }
           ]
         }
@@ -55,6 +54,25 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e7e6ad7a0c66879c2eae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_fecha"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

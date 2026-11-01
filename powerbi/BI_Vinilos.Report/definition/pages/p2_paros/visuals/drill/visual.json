@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "drill",
   "position": {
     "x": 680,
     "y": 316,
     "z": 0,
     "height": 380,
-    "width": 576,
-    "tabOrder": 0
+    "width": 576
   },
   "visual": {
     "visualType": "clusteredBarChart",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Category": {
@@ -28,7 +26,8 @@
                 }
               },
               "queryRef": "dim_paro.area_impacto",
-              "nativeQueryRef": "area_impacto"
+              "nativeQueryRef": "area_impacto",
+              "active": true
             },
             {
               "field": {
@@ -42,7 +41,8 @@
                 }
               },
               "queryRef": "dim_paro.nombre_codigo",
-              "nativeQueryRef": "nombre_codigo"
+              "nativeQueryRef": "nombre_codigo",
+              "active": false
             },
             {
               "field": {
@@ -56,7 +56,8 @@
                 }
               },
               "queryRef": "dim_paro.subsistema_nombre",
-              "nativeQueryRef": "subsistema_nombre"
+              "nativeQueryRef": "subsistema_nombre",
+              "active": false
             },
             {
               "field": {
@@ -70,7 +71,8 @@
                 }
               },
               "queryRef": "dim_paro.detalle_nombre",
-              "nativeQueryRef": "detalle_nombre"
+              "nativeQueryRef": "detalle_nombre",
+              "active": false
             }
           ]
         },
@@ -133,6 +135,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

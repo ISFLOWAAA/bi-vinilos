@@ -1,235 +1,278 @@
 table fact_produccion
+	lineageTag: aa3f175d-cb39-43b5-96ef-03c67b7c94a1
+
+	measure Pacas = SUM(fact_produccion[pacas_producidas])
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: 457b8013-e6e9-453f-bd01-9cae2f57e977
+
+	measure 'Horas programadas' = SUM(fact_produccion[horas_programadas])
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: 3b7cacac-5f82-440e-8f93-1f489ed6f3ee
+
+	measure Jornadas = COUNTROWS(fact_produccion)
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: a0c9735d-f499-492d-9075-6d8ad9c9c4d3
+
+	measure 'Horas de paro' = SUM(fact_paro[horas_paro])
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: 024765bc-d906-476b-9d77-556cc34949ed
+
+	measure 'Eventos de paro' = COUNTROWS(fact_paro)
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: cc0ae5b1-6205-4272-be61-2d5a1da250b3
+
+	measure 'Horas productivas' = [Horas programadas] - [Horas de paro]
+		formatString: #,0
+		displayFolder: 1. Básicas
+		lineageTag: c7c40a98-b550-4552-8c52-422fbe0a761d
+
+	measure 'Pacas por hora programada' = DIVIDE([Pacas], [Horas programadas])
+		formatString: 0.00
+		displayFolder: 1. Básicas
+		lineageTag: 44fb2785-767b-49ab-87c6-d700f4408921
+
+	measure Disponibilidad =
+			VAR hp = [Horas programadas]
+			RETURN IF(hp > 0, MAX(0, 1 - DIVIDE([Horas de paro], hp)))
+		formatString: 0.0%
+		displayFolder: 2. OEE
+		lineageTag: bae00eb2-3349-4467-8591-30de37b29b58
+
+	measure 'Pacas válidas' = CALCULATE(SUM(fact_produccion[pacas_producidas]), fact_produccion[valida_rendimiento] = TRUE())
+		formatString: #,0
+		displayFolder: 2. OEE
+		lineageTag: f5ad0927-da1a-494b-bbed-0b7391b4ea29
+
+	measure 'Pacas ideales' =
+			SUMX(
+			    FILTER(fact_produccion, fact_produccion[valida_rendimiento] = TRUE()),
+			    fact_produccion[horas_productivas] * RELATED(dim_meta_velocidad[pacas_por_hora])
+			)
+		formatString: #,0
+		displayFolder: 2. OEE
+		lineageTag: 46bb0ae9-f309-4c49-86be-2dcc80a02663
+
+	measure Rendimiento = DIVIDE([Pacas válidas], [Pacas ideales])
+		formatString: 0.0%
+		displayFolder: 2. OEE
+		lineageTag: 96e8a6bb-aefc-4bfd-979f-d8b886b03c14
+
+	measure 'Horas de calidad' = CALCULATE([Horas de paro], dim_paro[codigo_paro] IN {11, 12})
+		formatString: #,0
+		displayFolder: 2. OEE
+		lineageTag: df431241-e408-4532-b976-b1d67c9a5053
+
+	measure 'Calidad (proxy)' = IF([Horas programadas] > 0, MAX(0, 1 - DIVIDE([Horas de calidad], [Horas programadas])))
+		formatString: 0.0%
+		displayFolder: 2. OEE
+		lineageTag: a7435e51-37df-488b-867b-bbf00d343af2
+
+	measure OEE = [Disponibilidad] * [Rendimiento] * [Calidad (proxy)]
+		formatString: 0.0%
+		displayFolder: 2. OEE
+		lineageTag: 3d524507-48d4-4cbe-a0ad-df90c9c63c64
+
+	measure 'Horas paro programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = TRUE())
+		formatString: #,0
+		displayFolder: 3. Paros
+		lineageTag: 55c2bd84-c9e2-436c-a274-5ae17531f63c
+
+	measure 'Horas paro no programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = FALSE())
+		formatString: #,0
+		displayFolder: 3. Paros
+		lineageTag: f5720b53-d5df-4f24-8be4-30449c87af81
+
+	measure '% paro no programado' = DIVIDE([Horas paro no programado], [Horas de paro])
+		formatString: 0.0%
+		displayFolder: 3. Paros
+		lineageTag: 8a14c54c-94b9-4f9e-956d-cca14bc9b6be
+
+	measure '% del paro total' = DIVIDE([Horas de paro], CALCULATE([Horas de paro], ALLSELECTED(dim_paro)))
+		formatString: 0.0%
+		displayFolder: 3. Paros
+		lineageTag: aced91be-4bcc-40a5-aa75-5897aad6a86c
+
+	measure 'Pareto % acumulado' =
+			VAR horasActual = [Horas de paro]
+			VAR causas = ALLSELECTED(dim_paro[nombre_codigo])
+			VAR acumulado = SUMX(FILTER(causas, [Horas de paro] >= horasActual), [Horas de paro])
+			RETURN DIVIDE(acumulado, CALCULATE([Horas de paro], ALLSELECTED(dim_paro[nombre_codigo])))
+		formatString: 0.0%
+		displayFolder: 3. Paros
+		lineageTag: 9a6eb8b2-4e16-4b32-b66a-537745e00fc5
+
+	measure 'Fallas (código 01)' = CALCULATE(COUNTROWS(fact_paro), dim_paro[codigo_paro] = 1)
+		formatString: #,0
+		displayFolder: 3. Paros
+		lineageTag: 9de7a3e5-8861-411e-bd6a-75d59967bf4d
+
+	measure 'MTTR (h)' = DIVIDE(CALCULATE([Horas de paro], dim_paro[codigo_paro] = 1), [Fallas (código 01)])
+		formatString: 0.00
+		displayFolder: 3. Paros
+		lineageTag: 076902d7-6955-4baf-96bb-4eddc97f176a
+
+	measure 'MTBF (h)' = DIVIDE([Horas productivas], [Fallas (código 01)])
+		formatString: #,0.0
+		displayFolder: 3. Paros
+		lineageTag: 361a2e03-d652-4967-997d-7bdd833dc007
+
+	measure 'Pacas año anterior' = CALCULATE([Pacas], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+		formatString: #,0
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: 114388a5-5227-4d04-8d49-7adb2b21b8f2
+
+	measure 'Variación pacas vs año anterior' = DIVIDE([Pacas] - [Pacas año anterior], [Pacas año anterior])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: 4bad4275-5b04-4c5d-a8f5-70e428b5974c
+
+	measure 'Pacas acumuladas del año' = TOTALYTD([Pacas], dim_fecha[fecha])
+		formatString: #,0
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: a3c50a5c-0a3a-467d-967d-a45db1172f04
+
+	measure 'Horas de paro año anterior' = CALCULATE([Horas de paro], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+		formatString: #,0
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: c3fc6d58-c0d7-4393-9f94-0a7a944358aa
+
+	measure 'OEE año anterior' = CALCULATE([OEE], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+		formatString: 0.0%
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: c6c5b3c6-a242-4842-8f12-103a939e76fd
+
+	measure 'Variación OEE (puntos)' = [OEE] - [OEE año anterior]
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: 19fdd4f5-2c0e-41e9-91ad-bad477a7d9ed
+
+	measure 'OEE promedio móvil 3 meses' = CALCULATE([OEE], DATESINPERIOD(dim_fecha[fecha], MAX(dim_fecha[fecha]), -3, MONTH))
+		formatString: 0.0%
+		displayFolder: 4. Inteligencia de tiempo
+		lineageTag: be736e94-034e-4f11-959a-a0146aea0a99
 
 	column produccion_id
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: produccion_id
+		lineageTag: bd58caa4-ed07-4e5c-bdec-2c2d2dcb4c45
 		summarizeBy: none
+		sourceColumn: produccion_id
 
 	column fecha_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: fecha_key
+		lineageTag: 98530f3c-4007-414e-a335-21eee262d12e
 		summarizeBy: none
+		sourceColumn: fecha_key
 
 	column maquina_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: maquina_key
+		lineageTag: f6160d95-4753-45d7-a19d-53a5c9a62c66
 		summarizeBy: none
+		sourceColumn: maquina_key
 
 	column turno_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: turno_key
+		lineageTag: 0f7cc45d-8540-421f-88a6-b71cc834aa7f
 		summarizeBy: none
+		sourceColumn: turno_key
 
 	column referencia_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: referencia_key
+		lineageTag: fc59856b-9f1d-44ae-bd5e-c203dcd657f3
 		summarizeBy: none
+		sourceColumn: referencia_key
 
 	column operario_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: operario_key
+		lineageTag: 8518abfe-0b92-4a3f-99ad-9511f0d06622
 		summarizeBy: none
+		sourceColumn: operario_key
 
 	column meta_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: meta_key
+		lineageTag: 6ed2ea7e-61cb-4485-9884-2dd065ab6c6a
 		summarizeBy: none
+		sourceColumn: meta_key
 
 	column pacas_producidas
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: pacas_producidas
+		lineageTag: 9b4e659d-5a23-475f-b0be-07060ebf0cc3
 		summarizeBy: none
+		sourceColumn: pacas_producidas
 
 	column pacas_origen
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: pacas_origen
+		lineageTag: 10d4af90-95d7-4743-8f92-bc393f43099e
 		summarizeBy: none
+		sourceColumn: pacas_origen
 
 	column horas_programadas
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: horas_programadas
+		lineageTag: cb094986-c4c2-498f-a07b-bf59d3b7a7b8
 		summarizeBy: none
+		sourceColumn: horas_programadas
 
 	column horas_paro
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: horas_paro
+		lineageTag: 06df38bc-dc89-4aa1-866f-cb959e2164da
 		summarizeBy: none
+		sourceColumn: horas_paro
 
 	column horas_productivas
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: horas_productivas
+		lineageTag: 56b0e6ae-0df8-493a-8adb-7b92210a25aa
 		summarizeBy: none
+		sourceColumn: horas_productivas
 
 	column valida_rendimiento
 		dataType: boolean
-		sourceColumn: valida_rendimiento
+		lineageTag: 59bb7124-51a0-48fe-a129-a85b434ae0f4
 		summarizeBy: none
+		sourceColumn: valida_rendimiento
 
 	column bandera_calidad
 		dataType: string
-		sourceColumn: bandera_calidad
+		lineageTag: 4b7640bb-26a0-45d3-b4b6-abe0bc3df120
 		summarizeBy: none
+		sourceColumn: bandera_calidad
 
 	column fila_origen
 		dataType: int64
 		formatString: 0
-		sourceColumn: fila_origen
+		lineageTag: fbda008b-14a5-409e-9b07-ce189b0e42e8
 		summarizeBy: none
-
-	measure Pacas = SUM(fact_produccion[pacas_producidas])
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure 'Horas programadas' = SUM(fact_produccion[horas_programadas])
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure Jornadas = COUNTROWS(fact_produccion)
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure 'Horas de paro' = SUM(fact_paro[horas_paro])
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure 'Eventos de paro' = COUNTROWS(fact_paro)
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure 'Horas productivas' = [Horas programadas] - [Horas de paro]
-		formatString: #,0
-		displayFolder: 1. Básicas
-
-	measure 'Pacas por hora programada' = DIVIDE([Pacas], [Horas programadas])
-		formatString: 0.00
-		displayFolder: 1. Básicas
-
-	measure Disponibilidad = ```
-			VAR hp = [Horas programadas]
-			RETURN IF(hp > 0, MAX(0, 1 - DIVIDE([Horas de paro], hp)))
-			```
-		formatString: 0.0%
-		displayFolder: 2. OEE
-
-	measure 'Pacas válidas' = CALCULATE(SUM(fact_produccion[pacas_producidas]), fact_produccion[valida_rendimiento] = TRUE())
-		formatString: #,0
-		displayFolder: 2. OEE
-
-	measure 'Pacas ideales' = ```
-			SUMX(
-			    FILTER(fact_produccion, fact_produccion[valida_rendimiento] = TRUE()),
-			    fact_produccion[horas_productivas] * RELATED(dim_meta_velocidad[pacas_por_hora])
-			)
-			```
-		formatString: #,0
-		displayFolder: 2. OEE
-
-	measure Rendimiento = DIVIDE([Pacas válidas], [Pacas ideales])
-		formatString: 0.0%
-		displayFolder: 2. OEE
-
-	measure 'Horas de calidad' = CALCULATE([Horas de paro], dim_paro[codigo_paro] IN {11, 12})
-		formatString: #,0
-		displayFolder: 2. OEE
-
-	measure 'Calidad (proxy)' = IF([Horas programadas] > 0, MAX(0, 1 - DIVIDE([Horas de calidad], [Horas programadas])))
-		formatString: 0.0%
-		displayFolder: 2. OEE
-
-	measure OEE = [Disponibilidad] * [Rendimiento] * [Calidad (proxy)]
-		formatString: 0.0%
-		displayFolder: 2. OEE
-
-	measure 'Horas paro programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = TRUE())
-		formatString: #,0
-		displayFolder: 3. Paros
-
-	measure 'Horas paro no programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = FALSE())
-		formatString: #,0
-		displayFolder: 3. Paros
-
-	measure '% paro no programado' = DIVIDE([Horas paro no programado], [Horas de paro])
-		formatString: 0.0%
-		displayFolder: 3. Paros
-
-	measure '% del paro total' = DIVIDE([Horas de paro], CALCULATE([Horas de paro], ALLSELECTED(dim_paro)))
-		formatString: 0.0%
-		displayFolder: 3. Paros
-
-	measure 'Pareto % acumulado' = ```
-			VAR horasActual = [Horas de paro]
-			VAR causas = ALLSELECTED(dim_paro[nombre_codigo])
-			VAR acumulado = SUMX(FILTER(causas, [Horas de paro] >= horasActual), [Horas de paro])
-			RETURN DIVIDE(acumulado, CALCULATE([Horas de paro], ALLSELECTED(dim_paro[nombre_codigo])))
-			```
-		formatString: 0.0%
-		displayFolder: 3. Paros
-
-	measure 'Fallas (código 01)' = CALCULATE(COUNTROWS(fact_paro), dim_paro[codigo_paro] = 1)
-		formatString: #,0
-		displayFolder: 3. Paros
-
-	measure 'MTTR (h)' = DIVIDE(CALCULATE([Horas de paro], dim_paro[codigo_paro] = 1), [Fallas (código 01)])
-		formatString: 0.00
-		displayFolder: 3. Paros
-
-	measure 'MTBF (h)' = DIVIDE([Horas productivas], [Fallas (código 01)])
-		formatString: #,0.0
-		displayFolder: 3. Paros
-
-	measure 'Pacas año anterior' = CALCULATE([Pacas], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
-		formatString: #,0
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Variación pacas vs año anterior' = DIVIDE([Pacas] - [Pacas año anterior], [Pacas año anterior])
-		formatString: +0.0%;-0.0%;0.0%
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Pacas acumuladas del año' = TOTALYTD([Pacas], dim_fecha[fecha])
-		formatString: #,0
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Horas de paro año anterior' = CALCULATE([Horas de paro], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
-		formatString: #,0
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'OEE año anterior' = CALCULATE([OEE], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
-		formatString: 0.0%
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Variación OEE (puntos)' = [OEE] - [OEE año anterior]
-		formatString: +0.0%;-0.0%;0.0%
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'OEE promedio móvil 3 meses' = CALCULATE([OEE], DATESINPERIOD(dim_fecha[fecha], MAX(dim_fecha[fecha]), -3, MONTH))
-		formatString: 0.0%
-		displayFolder: 4. Inteligencia de tiempo
+		sourceColumn: fila_origen
 
 	partition fact_produccion = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "fact_produccion"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"produccion_id", Int64.Type}, {"fecha_key", Int64.Type}, {"maquina_key", Int64.Type}, {"turno_key", Int64.Type}, {"referencia_key", Int64.Type}, {"operario_key", Int64.Type}, {"meta_key", Int64.Type}, {"pacas_producidas", type number}, {"pacas_origen", type number}, {"horas_programadas", type number}, {"horas_paro", type number}, {"horas_productivas", type number}, {"valida_rendimiento", type logical}, {"bandera_calidad", type text}, {"fila_origen", Int64.Type}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "fact_produccion"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"produccion_id", Int64.Type}, {"fecha_key", Int64.Type}, {"maquina_key", Int64.Type}, {"turno_key", Int64.Type}, {"referencia_key", Int64.Type}, {"operario_key", Int64.Type}, {"meta_key", Int64.Type}, {"pacas_producidas", type number}, {"pacas_origen", type number}, {"horas_programadas", type number}, {"horas_paro", type number}, {"horas_productivas", type number}, {"valida_rendimiento", type logical}, {"bandera_calidad", type text}, {"fila_origen", Int64.Type}})
+				in
+				    Tipos
+

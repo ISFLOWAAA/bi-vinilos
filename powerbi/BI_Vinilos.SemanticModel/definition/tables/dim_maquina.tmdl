@@ -1,28 +1,33 @@
 table dim_maquina
+	lineageTag: d0a6c56e-61cb-4d0c-bb69-57468043500d
 
 	column maquina_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: maquina_key
+		lineageTag: 50033318-f204-43b6-9703-a06f87180af3
 		summarizeBy: none
+		sourceColumn: maquina_key
 
 	column nombre
 		dataType: string
-		sourceColumn: nombre
+		lineageTag: 34f00769-48f8-43d2-be1d-7853c06e6c78
 		summarizeBy: none
+		sourceColumn: nombre
 
 	column linea_producto
 		dataType: string
-		sourceColumn: linea_producto
+		lineageTag: 2224491a-b63c-4756-b499-25783772b3d5
 		summarizeBy: none
+		sourceColumn: linea_producto
 
 	partition dim_maquina = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_maquina"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"maquina_key", Int64.Type}, {"nombre", type text}, {"linea_producto", type text}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_maquina"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"maquina_key", Int64.Type}, {"nombre", type text}, {"linea_producto", type text}})
+				in
+				    Tipos
+

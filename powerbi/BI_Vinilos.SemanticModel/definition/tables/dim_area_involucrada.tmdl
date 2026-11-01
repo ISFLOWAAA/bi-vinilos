@@ -1,23 +1,27 @@
 table dim_area_involucrada
+	lineageTag: 435976ea-b08f-428c-a10d-41dc69d4ba17
 
 	column area_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: area_key
+		lineageTag: f327f869-7073-4c9d-90c3-b3689eaf1985
 		summarizeBy: none
+		sourceColumn: area_key
 
 	column nombre
 		dataType: string
-		sourceColumn: nombre
+		lineageTag: 8d191e82-f127-4c11-9030-0bc9a86d4787
 		summarizeBy: none
+		sourceColumn: nombre
 
 	partition dim_area_involucrada = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_area_involucrada"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"area_key", Int64.Type}, {"nombre", type text}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_area_involucrada"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"area_key", Int64.Type}, {"nombre", type text}})
+				in
+				    Tipos
+

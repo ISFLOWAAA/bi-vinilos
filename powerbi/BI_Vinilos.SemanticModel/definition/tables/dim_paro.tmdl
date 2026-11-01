@@ -1,69 +1,89 @@
 table dim_paro
+	lineageTag: 4f7e64d7-b1b6-407f-9dfd-2cdd39cee6e1
 
 	column paro_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: paro_key
+		lineageTag: 64e23d9d-a09b-4805-9106-0c93bbdcf795
 		summarizeBy: none
+		sourceColumn: paro_key
 
 	column area_impacto
 		dataType: string
-		sourceColumn: area_impacto
+		lineageTag: 0aaa0520-96e3-4370-aeca-f23ad195e69f
 		summarizeBy: none
+		sourceColumn: area_impacto
 
 	column codigo_paro
 		dataType: int64
 		formatString: 0
-		sourceColumn: codigo_paro
+		lineageTag: 6f8a442f-6aed-4e38-880d-a463a33a3972
 		summarizeBy: none
+		sourceColumn: codigo_paro
 
 	column nombre_codigo
 		dataType: string
-		sourceColumn: nombre_codigo
+		lineageTag: d30ff578-111f-4a94-bdd4-53fbb0490dc6
 		summarizeBy: none
+		sourceColumn: nombre_codigo
 
 	column es_programado
 		dataType: boolean
-		sourceColumn: es_programado
+		lineageTag: 39bdac84-1ae4-4bf8-bd6d-1b9dac047099
 		summarizeBy: none
+		sourceColumn: es_programado
 
 	column subsistema_codigo
 		dataType: string
-		sourceColumn: subsistema_codigo
+		lineageTag: 92347c33-7410-43ad-9e9f-1b66c1e3489b
 		summarizeBy: none
+		sourceColumn: subsistema_codigo
 
 	column subsistema_nombre
 		dataType: string
-		sourceColumn: subsistema_nombre
+		lineageTag: cf9ebff4-87bf-4c72-8eaa-411559e1c89a
 		summarizeBy: none
+		sourceColumn: subsistema_nombre
 
 	column detalle_codigo
 		dataType: string
-		sourceColumn: detalle_codigo
+		lineageTag: 7629cb39-09d0-4e89-90b2-402a8280dc9c
 		summarizeBy: none
+		sourceColumn: detalle_codigo
 
 	column detalle_nombre
 		dataType: string
-		sourceColumn: detalle_nombre
+		lineageTag: e3c8a817-0798-4121-98be-c84f6725fcba
 		summarizeBy: none
+		sourceColumn: detalle_nombre
 
 	hierarchy 'Jerarquía de paros'
+		lineageTag: 0036a431-895b-43db-9b2e-cb7ba95b0907
+
 		level 'Área de impacto'
+			lineageTag: 9d08ea27-9f27-4265-9b8d-767ad8522179
 			column: area_impacto
+
 		level 'Código de paro'
+			lineageTag: 9d4fc2ab-7443-4db6-b6f5-f38aeed7c4cd
 			column: nombre_codigo
+
 		level Subsistema
+			lineageTag: 3c542839-4369-4707-bf08-aa90c50d12b7
 			column: subsistema_nombre
+
 		level Detalle
+			lineageTag: a38f6f6f-d8c6-4414-a73d-e8259d0065b8
 			column: detalle_nombre
 
 	partition dim_paro = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_paro"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"paro_key", Int64.Type}, {"area_impacto", type text}, {"codigo_paro", Int64.Type}, {"nombre_codigo", type text}, {"es_programado", type logical}, {"subsistema_codigo", type text}, {"subsistema_nombre", type text}, {"detalle_codigo", type text}, {"detalle_nombre", type text}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_paro"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"paro_key", Int64.Type}, {"area_impacto", type text}, {"codigo_paro", Int64.Type}, {"nombre_codigo", type text}, {"es_programado", type logical}, {"subsistema_codigo", type text}, {"subsistema_nombre", type text}, {"detalle_codigo", type text}, {"detalle_nombre", type text}})
+				in
+				    Tipos
+

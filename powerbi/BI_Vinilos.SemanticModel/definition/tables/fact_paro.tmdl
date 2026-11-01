@@ -1,96 +1,111 @@
 table fact_paro
+	lineageTag: 2f9caa42-a1b3-4bc5-9d72-61a5fedcf9c2
 
 	column paro_id
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: paro_id
+		lineageTag: d6ba6bfd-8b9c-4125-965c-95069954e9a1
 		summarizeBy: none
+		sourceColumn: paro_id
 
 	column fecha_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: fecha_key
+		lineageTag: b1b221fd-f63f-417a-b402-357d19dd4897
 		summarizeBy: none
+		sourceColumn: fecha_key
 
 	column maquina_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: maquina_key
+		lineageTag: 3eb7efe0-bbfd-4786-925d-23a86b4199e5
 		summarizeBy: none
+		sourceColumn: maquina_key
 
 	column turno_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: turno_key
+		lineageTag: d891735e-a12f-4f76-a235-5e547d122b6c
 		summarizeBy: none
+		sourceColumn: turno_key
 
 	column referencia_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: referencia_key
+		lineageTag: 49e07196-5ab9-4615-aca7-cc8dfe1ed2c9
 		summarizeBy: none
+		sourceColumn: referencia_key
 
 	column operario_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: operario_key
+		lineageTag: a5136cba-3789-4028-a4b5-9503d03f96aa
 		summarizeBy: none
+		sourceColumn: operario_key
 
 	column paro_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: paro_key
+		lineageTag: 4c7382fe-83cb-4628-8717-e22965938c6e
 		summarizeBy: none
+		sourceColumn: paro_key
 
 	column area_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: area_key
+		lineageTag: 165219da-ec55-4881-9b90-1324300ea21c
 		summarizeBy: none
+		sourceColumn: area_key
 
 	column horas_paro
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: horas_paro
+		lineageTag: 13aef46d-1b2a-459d-a9c6-94e4b711b7f5
 		summarizeBy: none
+		sourceColumn: horas_paro
 
 	column minutos_paro
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: minutos_paro
+		lineageTag: 150ac0d4-2ae6-4289-bb8f-575c434efe65
 		summarizeBy: none
+		sourceColumn: minutos_paro
 
 	column eventos
 		dataType: int64
 		formatString: 0
-		sourceColumn: eventos
+		lineageTag: e8b53f4c-1dde-47b7-9ac9-5cb88b126759
 		summarizeBy: none
+		sourceColumn: eventos
 
 	column hoja_origen
 		dataType: string
-		sourceColumn: hoja_origen
+		lineageTag: 0ba1958c-5e27-4964-818b-b4a245bfb85d
 		summarizeBy: none
+		sourceColumn: hoja_origen
 
 	column fila_origen
 		dataType: int64
 		formatString: 0
-		sourceColumn: fila_origen
+		lineageTag: c8a17bf6-d9d2-4f38-a5dd-64597b97ab92
 		summarizeBy: none
+		sourceColumn: fila_origen
 
 	partition fact_paro = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "fact_paro"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"paro_id", Int64.Type}, {"fecha_key", Int64.Type}, {"maquina_key", Int64.Type}, {"turno_key", Int64.Type}, {"referencia_key", Int64.Type}, {"operario_key", Int64.Type}, {"paro_key", Int64.Type}, {"area_key", Int64.Type}, {"horas_paro", type number}, {"minutos_paro", type number}, {"eventos", Int64.Type}, {"hoja_origen", type text}, {"fila_origen", Int64.Type}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "fact_paro"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"paro_id", Int64.Type}, {"fecha_key", Int64.Type}, {"maquina_key", Int64.Type}, {"turno_key", Int64.Type}, {"referencia_key", Int64.Type}, {"operario_key", Int64.Type}, {"paro_key", Int64.Type}, {"area_key", Int64.Type}, {"horas_paro", type number}, {"minutos_paro", type number}, {"eventos", Int64.Type}, {"hoja_origen", type text}, {"fila_origen", Int64.Type}})
+				in
+				    Tipos
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "BI_Vinilos"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "07e5b4fa-9bc6-42c9-8a23-e64d63ffefc2"
+  }
+}

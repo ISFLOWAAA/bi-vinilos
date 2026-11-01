@@ -1,28 +1,33 @@
 table dim_operario
+	lineageTag: 64052e17-d2e4-4b9a-b694-7055ad889457
 
 	column operario_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: operario_key
+		lineageTag: 433ac181-4796-4f34-a8cc-abfda6b5e80d
 		summarizeBy: none
+		sourceColumn: operario_key
 
 	column codigo_seudonimo
 		dataType: string
-		sourceColumn: codigo_seudonimo
+		lineageTag: 19c0fc24-cd0c-478e-84e7-1c7f619cbf1d
 		summarizeBy: none
+		sourceColumn: codigo_seudonimo
 
 	column activo
 		dataType: boolean
-		sourceColumn: activo
+		lineageTag: 06b83c5d-70ac-4124-adbd-32526b1dfc14
 		summarizeBy: none
+		sourceColumn: activo
 
 	partition dim_operario = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_operario"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"operario_key", Int64.Type}, {"codigo_seudonimo", type text}, {"activo", type logical}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_operario"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"operario_key", Int64.Type}, {"codigo_seudonimo", type text}, {"activo", type logical}})
+				in
+				    Tipos
+

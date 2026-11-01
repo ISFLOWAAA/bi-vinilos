@@ -1,44 +1,52 @@
 table dim_turno
+	lineageTag: 02ac2365-4dfe-4438-bd73-eea9b4b6a5b9
 
 	column turno_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: turno_key
+		lineageTag: 34d7da91-e9d3-4129-b859-0ef5b26a3c73
 		summarizeBy: none
+		sourceColumn: turno_key
 
 	column nombre
 		dataType: string
-		sourceColumn: nombre
+		lineageTag: 11665e69-8061-4227-9e59-3d6569cd90c1
 		summarizeBy: none
+		sourceColumn: nombre
 
 	column tipo_turno
 		dataType: string
-		sourceColumn: tipo_turno
+		lineageTag: 166de148-76d7-46cd-8cf4-2c13201f6d3d
 		summarizeBy: none
+		sourceColumn: tipo_turno
 
 	column hora_inicio
 		dataType: string
-		sourceColumn: hora_inicio
+		lineageTag: 2f6ece46-190d-4ba3-a5d6-f772d3c57922
 		summarizeBy: none
+		sourceColumn: hora_inicio
 
 	column hora_fin
 		dataType: string
-		sourceColumn: hora_fin
+		lineageTag: 2e0d056b-7701-4907-b146-f176b9525b0a
 		summarizeBy: none
+		sourceColumn: hora_fin
 
 	column duracion_horas
 		dataType: double
 		formatString: #,0.00
-		sourceColumn: duracion_horas
+		lineageTag: 957f424f-d0d0-4c30-940f-534b94001309
 		summarizeBy: none
+		sourceColumn: duracion_horas
 
 	partition dim_turno = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_turno"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"turno_key", Int64.Type}, {"nombre", type text}, {"tipo_turno", type text}, {"hora_inicio", type text}, {"hora_fin", type text}, {"duracion_horas", type number}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_turno"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"turno_key", Int64.Type}, {"nombre", type text}, {"tipo_turno", type text}, {"hora_inicio", type text}, {"hora_fin", type text}, {"duracion_horas", type number}})
+				in
+				    Tipos
+

@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "f_area2",
   "position": {
-    "x": 456,
-    "y": 136,
+    "x": 455.62393458726996,
+    "y": 136.0954609806131,
     "z": 0,
-    "height": 60,
-    "width": 240,
-    "tabOrder": 0
+    "height": 75.740082632689038,
+    "width": 241.42151339169629
   },
   "visual": {
     "visualType": "slicer",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Values": {
@@ -28,7 +26,8 @@
                 }
               },
               "queryRef": "dim_paro.area_impacto",
-              "nativeQueryRef": "area_impacto"
+              "nativeQueryRef": "area_impacto",
+              "active": true
             }
           ]
         }
@@ -55,6 +54,25 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "04ba8eefa1e85175ba09",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_paro"
+              }
+            },
+            "Property": "area_impacto"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

@@ -2,6 +2,18 @@ model Model
 	culture: es-ES
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	discourageImplicitMeasures
+	sourceQueryCulture: es-CO
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.146.705.0 (25.08)+b71502aff0a01340c88f384884ef42771068f115
+
+annotation PBI_QueryOrder = ["dim_fecha","dim_maquina","dim_turno","dim_referencia","dim_operario","dim_paro","dim_area_involucrada","dim_meta_velocidad","fact_produccion","fact_paro","Servidor","BaseDatos"]
+
+annotation PBI_ProTooling = ["DevMode"]
 
 ref table dim_fecha
 ref table dim_maquina
@@ -13,6 +25,9 @@ ref table dim_area_involucrada
 ref table dim_meta_velocidad
 ref table fact_produccion
 ref table fact_paro
+ref table DateTableTemplate_ad48c5e1-86f3-41fc-aaff-4283f57c948d
+ref table LocalDateTable_3adadece-83a8-4df7-8e64-dd0ea369cfae
+ref table LocalDateTable_b8bff75b-61df-454a-b8ef-4bd6500f61aa
 
-ref expression Servidor
-ref expression BaseDatos
+ref cultureInfo es-ES
+

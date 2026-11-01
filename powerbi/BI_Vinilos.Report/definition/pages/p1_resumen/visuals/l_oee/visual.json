@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "l_oee",
   "position": {
     "x": 24,
     "y": 316,
     "z": 0,
     "height": 380,
-    "width": 780,
-    "tabOrder": 0
+    "width": 780
   },
   "visual": {
     "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Category": {
@@ -28,25 +26,8 @@
                 }
               },
               "queryRef": "dim_fecha.anio_mes",
-              "nativeQueryRef": "anio_mes"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "fact_produccion"
-                    }
-                  },
-                  "Property": "OEE"
-                }
-              },
-              "queryRef": "fact_produccion.OEE",
-              "nativeQueryRef": "OEE"
+              "nativeQueryRef": "anio_mes",
+              "active": true
             }
           ]
         },
@@ -65,6 +46,24 @@
               },
               "queryRef": "dim_maquina.nombre",
               "nativeQueryRef": "nombre"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_produccion"
+                    }
+                  },
+                  "Property": "OEE"
+                }
+              },
+              "queryRef": "fact_produccion.OEE",
+              "nativeQueryRef": "OEE"
             }
           ]
         }
@@ -91,6 +90,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

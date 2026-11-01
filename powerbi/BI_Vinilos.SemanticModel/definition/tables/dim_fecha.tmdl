@@ -1,94 +1,119 @@
 table dim_fecha
+	lineageTag: e2803cdb-b936-40f2-b46d-53a39a9e92cc
 	dataCategory: Time
 
 	column fecha_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: fecha_key
+		lineageTag: 9744163c-7559-477a-90f4-f7ac1c10be25
 		summarizeBy: none
+		sourceColumn: fecha_key
 
 	column fecha
 		dataType: dateTime
 		isKey
-		formatString: dd/mm/yyyy
-		sourceColumn: fecha
+		formatString: Long Date
+		lineageTag: 03b880bf-fd8b-452f-93e8-3a184c938eb2
 		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column anio
 		dataType: int64
 		formatString: 0
-		sourceColumn: anio
+		lineageTag: 1fa67bf5-c74a-4220-9f53-3e3b709787bf
 		summarizeBy: none
+		sourceColumn: anio
 
 	column trimestre
 		dataType: int64
 		formatString: 0
-		sourceColumn: trimestre
+		lineageTag: cc68b326-9e48-41b5-bc4f-b0e5b991c9ae
 		summarizeBy: none
+		sourceColumn: trimestre
 
 	column mes
 		dataType: int64
 		formatString: 0
-		sourceColumn: mes
+		lineageTag: e61749f5-0d65-4c03-8ea2-dda00c9cffd4
 		summarizeBy: none
+		sourceColumn: mes
 
 	column nombre_mes
 		dataType: string
+		lineageTag: 34a4ef3d-8dd5-465e-b9d0-cad4dff9f49d
+		summarizeBy: none
 		sourceColumn: nombre_mes
 		sortByColumn: mes
-		summarizeBy: none
 
 	column semana_iso
 		dataType: int64
 		formatString: 0
-		sourceColumn: semana_iso
+		lineageTag: d5783dfd-e49b-44dc-a86e-ae98b8a33672
 		summarizeBy: none
+		sourceColumn: semana_iso
 
 	column dia
 		dataType: int64
 		formatString: 0
-		sourceColumn: dia
+		lineageTag: ba44dc60-36e9-49f6-97ec-a574eeb8ff4e
 		summarizeBy: none
+		sourceColumn: dia
 
 	column dia_semana
 		dataType: int64
 		formatString: 0
-		sourceColumn: dia_semana
+		lineageTag: 75653739-3a1a-4b99-ae88-5fa0b542905a
 		summarizeBy: none
+		sourceColumn: dia_semana
 
 	column nombre_dia
 		dataType: string
+		lineageTag: 04738297-edd9-45f3-979a-2eb8cc2f0375
+		summarizeBy: none
 		sourceColumn: nombre_dia
 		sortByColumn: dia_semana
-		summarizeBy: none
 
 	column es_fin_semana
 		dataType: boolean
-		sourceColumn: es_fin_semana
+		lineageTag: 4fd6866e-3785-4b1c-a08c-2d63431f09b4
 		summarizeBy: none
+		sourceColumn: es_fin_semana
 
 	column anio_mes
 		dataType: string
-		sourceColumn: anio_mes
+		lineageTag: 824ece2c-ca27-4c06-b52f-c2cc1bb4775a
 		summarizeBy: none
+		sourceColumn: anio_mes
 
 	hierarchy Calendario
+		lineageTag: 2609ada2-f8d1-4227-a4a0-1e12a0509ca8
+
 		level Año
+			lineageTag: 98dbffac-e528-4d74-a256-ab3ce76dff38
 			column: anio
+
 		level Trimestre
+			lineageTag: 6db98ea6-db73-4f3a-880d-5fb28e460698
 			column: trimestre
+
 		level Mes
+			lineageTag: 83f0d41b-56d4-4141-8109-c5d2836acea8
 			column: nombre_mes
+
 		level Día
+			lineageTag: 954135a6-dfd7-4a4d-ae2f-7d4a3ac4d1ca
 			column: dia
 
 	partition dim_fecha = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_fecha"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"fecha_key", Int64.Type}, {"fecha", type date}, {"anio", Int64.Type}, {"trimestre", Int64.Type}, {"mes", Int64.Type}, {"nombre_mes", type text}, {"semana_iso", Int64.Type}, {"dia", Int64.Type}, {"dia_semana", Int64.Type}, {"nombre_dia", type text}, {"es_fin_semana", type logical}, {"anio_mes", type text}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_fecha"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"fecha_key", Int64.Type}, {"fecha", type date}, {"anio", Int64.Type}, {"trimestre", Int64.Type}, {"mes", Int64.Type}, {"nombre_mes", type text}, {"semana_iso", Int64.Type}, {"dia", Int64.Type}, {"dia_semana", Int64.Type}, {"nombre_dia", type text}, {"es_fin_semana", type logical}, {"anio_mes", type text}})
+				in
+				    Tipos
+

@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "k22",
   "position": {
     "x": 648,
     "y": 212,
     "z": 0,
     "height": 88,
-    "width": 296,
-    "tabOrder": 0
+    "width": 296
   },
   "visual": {
     "visualType": "card",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Values": {
@@ -33,6 +31,25 @@
           ]
         }
       }
-    }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5234fc74c13b33c62580",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_produccion"
+              }
+            },
+            "Property": "MTTR (h)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

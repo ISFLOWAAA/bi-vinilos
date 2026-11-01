@@ -1,3 +1,10 @@
 expression Servidor = "localhost:5433" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: f6e23d5f-54c4-447b-a374-f5c20d2b5dab
+
+	annotation PBI_ResultType = Text
 
 expression BaseDatos = "bi_vinilos" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: dfa9efa4-d237-41be-9486-b534a282e9b4
+
+	annotation PBI_ResultType = Text
+

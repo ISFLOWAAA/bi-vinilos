@@ -1,0 +1,152 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50.013339942697939,
+            "y": 86.499782628095886
+          },
+          "nodeIndex": "dim_area_involucrada",
+          "nodeLineageTag": "435976ea-b08f-428c-a10d-41dc69d4ba17",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 704.261526722453,
+            "y": 154.96731153680582
+          },
+          "nodeIndex": "dim_fecha",
+          "nodeLineageTag": "e2803cdb-b936-40f2-b46d-53a39a9e92cc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 569.94763444113869,
+            "y": -50
+          },
+          "nodeIndex": "dim_maquina",
+          "nodeLineageTag": "d0a6c56e-61cb-4d0c-bb69-57468043500d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1260.410622999276,
+            "y": 506.50827997096485
+          },
+          "nodeIndex": "dim_meta_velocidad",
+          "nodeLineageTag": "56b146e1-1c29-4b59-b187-cd42cb3555d2",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 856.44429695078679,
+            "y": -49.97341823429872
+          },
+          "nodeIndex": "dim_operario",
+          "nodeLineageTag": "64052e17-d2e4-4b9a-b694-7055ad889457",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 289.64042667745878
+          },
+          "nodeIndex": "dim_paro",
+          "nodeLineageTag": "4f7e64d7-b1b6-407f-9dfd-2cdd39cee6e1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 807.40446016488136,
+            "y": 508.1394690274073
+          },
+          "nodeIndex": "dim_referencia",
+          "nodeLineageTag": "f02d65d4-a85d-47b2-8343-c512caa4279c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 521.34366982067365,
+            "y": 512.803528873008
+          },
+          "nodeIndex": "dim_turno",
+          "nodeLineageTag": "02ac2365-4dfe-4438-bd73-eea9b4b6a5b9",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 337.10688468751391,
+            "y": 159.49873059163826
+          },
+          "nodeIndex": "fact_paro",
+          "nodeLineageTag": "2f9caa42-a1b3-4bc5-9d72-61a5fedcf9c2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 990.83803103221521,
+            "y": 154.952247050158
+          },
+          "nodeIndex": "fact_produccion",
+          "nodeLineageTag": "aa3f175d-cb39-43b5-96ef-03c67b7c94a1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

@@ -1,40 +1,47 @@
 table dim_referencia
+	lineageTag: f02d65d4-a85d-47b2-8343-c512caa4279c
 
 	column referencia_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		sourceColumn: referencia_key
+		lineageTag: ec4f9995-3ec7-4921-9bee-ea0649c363dd
 		summarizeBy: none
+		sourceColumn: referencia_key
 
 	column nombre_estandar
 		dataType: string
-		sourceColumn: nombre_estandar
+		lineageTag: 57af14a4-632a-4c49-a93a-035d10a7298b
 		summarizeBy: none
+		sourceColumn: nombre_estandar
 
 	column producto
 		dataType: string
-		sourceColumn: producto
+		lineageTag: 6e6a0a30-6fec-4efa-beb1-8dcba5bf691c
 		summarizeBy: none
+		sourceColumn: producto
 
 	column contenido_cc
 		dataType: int64
 		formatString: 0
-		sourceColumn: contenido_cc
+		lineageTag: 9e8d7d3b-52a0-4deb-b8d2-ff21f39c854d
 		summarizeBy: none
+		sourceColumn: contenido_cc
 
 	column num_colores
 		dataType: int64
 		formatString: 0
-		sourceColumn: num_colores
+		lineageTag: c6c8e2e5-c823-46b2-a20c-d5316b12de51
 		summarizeBy: none
+		sourceColumn: num_colores
 
 	partition dim_referencia = m
 		mode: import
 		source =
-			let
-			    Origen = PostgreSQL.Database(Servidor, BaseDatos),
-			    Tabla = Origen{[Schema = "dw", Item = "dim_referencia"]}[Data],
-			    Tipos = Table.TransformColumnTypes(Tabla, {{"referencia_key", Int64.Type}, {"nombre_estandar", type text}, {"producto", type text}, {"contenido_cc", Int64.Type}, {"num_colores", Int64.Type}})
-			in
-			    Tipos
+				let
+				    Origen = PostgreSQL.Database(Servidor, BaseDatos),
+				    Tabla = Origen{[Schema = "dw", Item = "dim_referencia"]}[Data],
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"referencia_key", Int64.Type}, {"nombre_estandar", type text}, {"producto", type text}, {"contenido_cc", Int64.Type}, {"num_colores", Int64.Type}})
+				in
+				    Tipos
+

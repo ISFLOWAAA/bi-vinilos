@@ -1,17 +1,15 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.1.0/schema.json",
   "name": "pareto",
   "position": {
     "x": 24,
     "y": 316,
     "z": 0,
     "height": 380,
-    "width": 640,
-    "tabOrder": 0
+    "width": 640
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
-    "drillFilterOtherVisuals": true,
     "query": {
       "queryState": {
         "Category": {
@@ -28,7 +26,8 @@
                 }
               },
               "queryRef": "dim_paro.nombre_codigo",
-              "nativeQueryRef": "nombre_codigo"
+              "nativeQueryRef": "nombre_codigo",
+              "active": true
             }
           ]
         },
@@ -109,6 +108,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }
