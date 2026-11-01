@@ -1,0 +1,33 @@
+# --- Credenciales (NUNCA se suben) ---
+.env
+*.env
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Datos generados por el ETL (se reconstruyen desde cero) ---
+data/staging/
+data/processed/
+*.log
+
+# --- Power BI (formato PBIP: se versiona el proyecto, no la caché) ---
+*.pbix
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# --- Docker (volúmenes locales) ---
+pgdata/
+grafana-data/
+
+# --- Sistema / editores ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+~$*
