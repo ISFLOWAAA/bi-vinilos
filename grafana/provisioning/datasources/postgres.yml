@@ -8,7 +8,7 @@ datasources:
     type: postgres
     access: proxy
     url: postgres:5432            # nombre del servicio en docker-compose (red interna)
-    user: ${POSTGRES_USER}
+    user: ${BI_LECTOR_USER}       # usuario de solo lectura (ver sql/init/04_roles.sh)
     isDefault: true
     editable: false
     jsonData:
@@ -17,4 +17,4 @@ datasources:
       postgresVersion: 1600
       timescaledb: false
     secureJsonData:
-      password: ${POSTGRES_PASSWORD}
+      password: ${BI_LECTOR_PASSWORD}

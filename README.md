@@ -57,6 +57,13 @@ Más detalle: [ETL](etl/README.md) · [Simulación](simulacion/README.md) · [Gr
 | [`docs/modelo_dimensional.md`](docs/modelo_dimensional.md) | Modelo en estrella, granularidad, jerarquía de paros, matriz de bus |
 | [`docs/diccionario_datos.md`](docs/diccionario_datos.md) | Columnas, tipos, llaves, origen y reglas de cada tabla |
 | [`docs/validacion_etl.md`](docs/validacion_etl.md) | Reglas de limpieza con conteos antes y después, y cuadre de totales |
+| [`docs/base_de_datos.md`](docs/base_de_datos.md) | Restricciones e índices justificados y las 10 consultas analíticas |
+| [`docs/arquitectura.md`](docs/arquitectura.md) | Diagrama de la arquitectura completa, de la fuente al consumo |
+| [`docs/comparativo_power_bi_grafana.md`](docs/comparativo_power_bi_grafana.md) | Qué resuelve cada herramienta, para quién y por qué no se intercambian |
+| [`docs/evolucion_plc_scada.md`](docs/evolucion_plc_scada.md) | Cómo evolucionaría la solución con datos directos de PLC o SCADA |
+| [`docs/seguridad_datos_personales.md`](docs/seguridad_datos_personales.md) | Tratamiento de datos personales y seguridad de acceso |
+| [`docs/resumen_ejecutivo.md`](docs/resumen_ejecutivo.md) | Hallazgos y recomendaciones para la gerencia |
+| [`docs/informe/`](docs/informe/) | Informe final en PDF y el script que lo genera (`python docs/informe/construir_pdf.py`) |
 
 ## Tecnologías
 

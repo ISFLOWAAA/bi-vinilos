@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BI_LECTOR_USER: ${BI_LECTOR_USER}                      # los usa sql/init/04_roles.sh
+      BI_LECTOR_PASSWORD: ${BI_LECTOR_PASSWORD}
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
@@ -37,9 +39,9 @@ services:
       GF_ALERTING_ENABLED: "false"                           # se usa la alerta unificada (la nueva)
       GF_UNIFIED_ALERTING_ENABLED: "true"
       # Variables que lee el provisioning de la fuente de datos (grafana/provisioning/datasources)
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      BI_LECTOR_USER: ${BI_LECTOR_USER}                      # Grafana solo lee: usuario sin permisos de escritura
+      BI_LECTOR_PASSWORD: ${BI_LECTOR_PASSWORD}
     ports:
       - "${GRAFANA_PORT}:3000"
     volumes:
