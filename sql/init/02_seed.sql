@@ -45,7 +45,7 @@ INSERT INTO dw.dim_area_involucrada (area_key, nombre) VALUES
 
 -- Miembros "Desconocido" para que ningun hecho se pierda por un nulo de la fuente.
 INSERT INTO dw.dim_maquina    (maquina_key, nombre, linea_producto)        VALUES (-1, 'Desconocida', 'Desconocida');
-INSERT INTO dw.dim_referencia (referencia_key, nombre_original, producto)  VALUES (-1, 'Desconocida', 'Desconocida');
+INSERT INTO dw.dim_referencia (referencia_key, nombre_estandar, producto)  VALUES (-1, 'Desconocida', 'Desconocida');
 INSERT INTO dw.dim_operario   (operario_key, codigo_seudonimo, activo)     VALUES (-1, 'OP-DESCONOCIDO', false);
 INSERT INTO dw.dim_paro (paro_key, area_impacto, codigo_paro, nombre_codigo, es_programado)
                                                                            VALUES (-1, 'Sin paro', 0, 'Sin paro', false);

@@ -35,11 +35,27 @@ _(El diagrama final va en `docs/`)_
 
 _(Se completa a medida que avanza el proyecto)_
 
+Requisitos: Git, Docker Desktop (en marcha) y Python 3.11 o superior.
+
 1. Clonar el repositorio.
-2. Copiar `.env.example` como `.env` y definir las credenciales.
-3. Levantar los servicios: `docker compose up -d`
-4. Ejecutar el ETL: `python etl/main.py`
-5. Abrir el proyecto de Power BI en `powerbi/` y Grafana en `http://localhost:3000`.
+2. Copiar `.env.example` como `.env` y definir las contraseñas (si los puertos 5432 o 3000 ya están ocupados en tu equipo, cambia `POSTGRES_PORT` y `GRAFANA_PORT`).
+3. Levantar la base de datos: `docker compose up -d --wait` (crea las tablas y los datos fijos solo la primera vez).
+4. Crear el entorno de Python e instalar las librerías:
+   `python -m venv .venv` y `.venv\Scripts\python -m pip install -r etl\requirements.txt`
+5. Ejecutar el ETL: `.venv\Scripts\python etl\main.py`. Termina con `TODO CUADRA` y escribe [`docs/validacion_etl.md`](docs/validacion_etl.md).
+6. Abrir el proyecto de Power BI en `powerbi/` y Grafana en `http://localhost:<GRAFANA_PORT>` _(pendiente)_.
+
+Más detalle del ETL en [`etl/README.md`](etl/README.md).
+
+## Documentación
+
+| Documento | Contenido |
+|---|---|
+| [`docs/diagnostico/diagnostico_fuente.md`](docs/diagnostico/diagnostico_fuente.md) | Estructura del Excel, problemas de calidad y limitaciones del reporte actual |
+| [`docs/catalogo_indicadores.md`](docs/catalogo_indicadores.md) | Usuarios, preguntas de negocio, supuestos e indicadores (incluido el OEE) |
+| [`docs/modelo_dimensional.md`](docs/modelo_dimensional.md) | Modelo en estrella, granularidad, jerarquía de paros, matriz de bus |
+| [`docs/diccionario_datos.md`](docs/diccionario_datos.md) | Columnas, tipos, llaves, origen y reglas de cada tabla |
+| [`docs/validacion_etl.md`](docs/validacion_etl.md) | Reglas de limpieza con conteos antes y después, y cuadre de totales |
 
 ## Tecnologías
 

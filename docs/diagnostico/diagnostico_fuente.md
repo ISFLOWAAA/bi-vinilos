@@ -47,11 +47,28 @@ Máquinas: Vinilos_1 (1.877), Vinilos_2 (1.255), Vinilos_3 (2.491), Vinilos_4 (2
 | 10 | **Datos personales** | 34 nombres de operarios en texto claro | Seudonimizar en el modelo (ver sección de seguridad) |
 | 11 | **Archivo con macros** | `.xlsm`; las hojas `Registro` y `Tiempos` dependen de VBA | El ETL lee solo valores (`data_only`) y no ejecuta macros |
 
-## 4. Punto abierto a verificar en la validación del ETL
+## 4. Punto que estaba abierto: las filas de subcódigo (resuelto)
 
-Las filas de subcódigo (problema 4) traen sus propias horas de paro. Falta confirmar si esas horas **ya están incluidas** en la fila padre (doble conteo) o son adicionales. La validación de totales contra la fuente (horas, pacas, tiempo de paro) debe responderlo antes de fijar la regla definitiva.
+Las filas de subcódigo traen sus propias horas de paro. Se verificó con los datos que **son horas adicionales y no doble conteo**:
 
-## 5. Limitaciones del esquema actual de reporte
+- Son casi todas del código 05 (723,3 h), más el 01 (60,0 h) y el 03 (15,8 h).
+- Solo la mitad se puede ligar a una jornada con seguridad (1.470 de 3.048 tienen una jornada única con la misma fecha, máquina, operario y referencia), y en esas el código 05 aparece en la jornada solo 280 veces frente a 1.229 en la fila de subcódigo.
+- La hoja oculta `Base de datos de Sub codigos` (1.252 filas) está contenida por completo en `Base De Datos`, así que no aporta datos nuevos.
+
+Regla aplicada: las filas de subcódigo no son jornadas y se cargan como **eventos de paro propios** (sus horas se suman al total). Por eso la disponibilidad se calcula con las horas de `fact_paro`, no con la columna `horas_paro` de `fact_produccion`.
+
+## 5. Hallazgos adicionales al cargar los datos
+
+| Hallazgo | Detalle |
+|---|---|
+| Pacas imposibles | 11 jornadas de Vinilos_1 en julio de 2023 con entre 3.552 y 9.417 pacas en 8 h (unas 500 por hora, cuando lo normal son 7). Suman 52.493 pacas, el 14 % del total. Parecen unidades digitadas como pacas. |
+| Subcódigos con dos catálogos | En el código 05 conviven la numeración antigua `4.x` y la actual `5.x`, y no coinciden (el antiguo 4.4 Transfer es hoy el 5.5). |
+| Meta no guardada | Las columnas de velocidad ideal (unidades por minuto, unidades por display, displays por paca) están vacías en el 100 % de las filas. |
+| Código 1.1 con dos nombres | El catálogo lo llama "Falla mecánica"; los datos y los gráficos del P-MTO-22 usan "Sistema alimentador de envases". |
+
+## 6. Limitaciones del esquema actual de reporte
+
+## 6. Limitaciones del esquema actual de reporte
 
 1. **No calcula OEE** ni sus componentes (disponibilidad, rendimiento, calidad).
 2. **Cobertura parcial en 2025**: el comparativo 2024 vs 2025 llega solo hasta marzo/abril.

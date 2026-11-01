@@ -14,9 +14,11 @@ Se usa un **esquema en estrella** con tablas de hechos y dimensiones desnormaliz
 
 | Tabla | **Granularidad (una fila es…)** | Medidas | Origen |
 |---|---|---|---|
-| `fact_produccion` | Una **jornada**: una máquina, un día, un turno, un operario y una referencia. Son las filas de `Base De Datos` con producción (5.160). | `pacas_producidas`, `horas_programadas`, `horas_paro`, `horas_productivas` (derivada) | `Base De Datos` |
+| `fact_produccion` | Una **jornada**: una máquina, un día, un turno, un operario y una referencia. Son las filas de `Base De Datos` con producción (5.138 tras eliminar 22 duplicados). | `pacas_producidas`, `pacas_origen`, `horas_programadas`, `horas_paro`, `horas_productivas` (derivada), `valida_rendimiento` | `Base De Datos` |
 | `fact_paro` | Un **evento de paro**: una jornada y un código de paro (y subcódigo, si lo tiene) con horas mayores que cero. Resulta de despivotar las 18 columnas "Código N en horas". | `horas_paro`, `minutos_paro`, `eventos` (siempre 1, para contar fallas) | `Base De Datos` y `Base de datos de Sub codigos` |
 | `fact_registro_horario` | **Una hora de una máquina** en el tiempo casi real. Es la tabla que alimenta la simulación y Grafana. | `pacas_hora`, `minutos_paro` | Script de simulación (sin histórico) |
+
+`horas_paro` de `fact_produccion` es solo el paro registrado en la propia fila de la jornada. El paro completo, incluidas las filas de subcódigo, está en `fact_paro`, y **es el que debe usarse para disponibilidad y OEE**. Las medidas de rendimiento deben filtrar `valida_rendimiento = true`.
 
 Reglas de granularidad:
 - Las **filas de subcódigo sin producción no son jornadas**: solo generan filas en `fact_paro`.
@@ -31,7 +33,7 @@ Reglas de granularidad:
 | **`dim_hora`** (construida) | `hora_key` (0–23) | hora, franja (madrugada, mañana, tarde, noche) | Franja → Hora | Generada |
 | **`dim_maquina`** | `maquina_key` | nombre (Vinilos_1 a Vinilos_4), línea de producto | Línea → Máquina | `Maquina` |
 | **`dim_turno`** (construida) | `turno_key` | nombre limpio, hora de inicio, hora de fin, duración en horas | Tipo de turno → Turno | `Turno`, con catálogo de equivalencias (8 valores crudos → 7 turnos) |
-| **`dim_referencia`** | `referencia_key` | nombre original, producto, contenido en cc, número de colores | Producto → Referencia | `Referencia`, separando por ejemplo "Parchesitos 22cc (6 col)" |
+| **`dim_referencia`** | `referencia_key` | nombre estándar (erratas y formato corregidos), producto, contenido en cc, número de colores | Producto → Referencia | `Referencia`, separando por ejemplo "Parchesitos 22cc (6 col)" |
 | **`dim_operario`** | `operario_key` | código seudónimo (OP-001), activo | — | `Operario` (ver privacidad) |
 | **`dim_paro`** | `paro_key` | área de impacto, código y nombre, es programado, subsistema (código y nombre), detalle (código y nombre) | Área de impacto → Código → Subsistema → Detalle | `TABLA CODIGOS` y equivalencias |
 | **`dim_area_involucrada`** | `area_key` | Operarios, Personal de mantenimiento, No especificado | — | `Área involucrada en subcódigo` |
@@ -110,8 +112,10 @@ erDiagram
         int operario_key FK
         int meta_key FK
         numeric pacas_producidas
+        numeric pacas_origen
         numeric horas_programadas
         numeric horas_paro
+        boolean valida_rendimiento
         int fila_origen
     }
     fact_paro {
@@ -141,4 +145,4 @@ erDiagram
     }
 ```
 
-El diccionario de datos completo (columnas, tipos, llaves, reglas de transformación y origen de cada campo) se redacta junto con el DDL en la fase siguiente, para que ambos coincidan.
+El diccionario de datos completo (columnas, tipos, llaves, reglas de transformación y origen de cada campo) está en [diccionario_datos.md](diccionario_datos.md), generado desde la propia base para que no se desfase del DDL. A estas tablas se suman `seguridad.operario_pii` (nombres reales, acceso restringido) y `calidad.incidencias` (bitácora de correcciones del ETL).

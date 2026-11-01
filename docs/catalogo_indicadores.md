@@ -14,11 +14,12 @@
 | # | Supuesto | Razón |
 |---|---|---|
 | S1 | **Horas programadas** = `Horas trabajadas` de la fila con producción (duración del turno registrada). El paro está incluido en ese tiempo. | Solo 45 de 5.160 filas tienen paro mayor que las horas trabajadas. |
-| S2 | **Tiempo productivo** = Horas programadas − Horas de paro. | Es la lógica de la hoja `Tiempos` del Excel actual. |
+| S2 | **Tiempo productivo** = Horas programadas − Horas de paro, donde las horas de paro se suman de `fact_paro` (incluye las filas de subcódigo). | Es la lógica de la hoja `Tiempos` del Excel actual; usar `fact_paro` evita perder el 9,5 % del paro que viene en filas de subcódigo. |
 | S3 | **Meta por hora (pacas)** no se guarda en la base: las columnas de velocidad ideal están vacías en el 100 % de las filas. Se define una **velocidad de referencia por máquina y referencia** a partir del histórico (percentil 90 de pacas por hora productiva), almacenada en una tabla propia y editable. | Sin velocidad ideal no se puede calcular Rendimiento. Es la limitación más importante de la fuente. |
 | S4 | **Calidad no se registra** (no hay producto no conforme). Versión 1: proxy = 1 − (horas de [11] Reproceso + [12] Materia prima defectuosa) / Horas programadas, declarado como aproximación. Se propone capturar unidades no conformes. | Sin ese dato, el componente Calidad del OEE no es medible directamente. |
 | S5 | **Paros programados**: los que la hoja `TABLA CODIGOS` clasifica con área de impacto "Paro programado" ([15] Cambio de insumos, [16] Alimentación y aseo, [17] Pausa activa), más [04] Mantenimiento preventivo y [18] Desinfección, que son programados por definición. El resto es no programado. | Permite separar pérdida controlable de pérdida programada, respetando la clasificación de la empresa. |
-| S6 | Las filas de subcódigo sin producción **no son jornadas**; solo aportan a paros. Falta verificar si sus horas duplican las de la fila padre (se resuelve en la validación del ETL). | Ver `docs/diagnostico/diagnostico_fuente.md`, secciones 3 y 4. |
+| S6 | Las filas de subcódigo sin producción **no son jornadas**; solo aportan a paros, y sus horas son **adicionales** (no duplican las de la jornada). | Verificado con los datos; ver `docs/diagnostico/diagnostico_fuente.md`, sección 4. |
+| S7 | Las **11 jornadas con pacas imposibles** (más de 60 pacas por hora) conservan sus horas pero no sus pacas, y quedan fuera del cálculo de rendimiento (`valida_rendimiento = false`). | Evita que un error de digitación distorsione el OEE de Vinilos_1 en 2023. |
 
 Los umbrales de esta tabla son **iniciales**: se calibran con el histórico cuando el ETL esté cargado y se confirman con el coordinador de mantenimiento.
 

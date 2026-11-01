@@ -6,6 +6,7 @@
 
 CREATE SCHEMA IF NOT EXISTS dw;          -- modelo analitico (lo consumen Power BI y Grafana)
 CREATE SCHEMA IF NOT EXISTS seguridad;   -- datos personales, fuera del alcance de los tableros
+CREATE SCHEMA IF NOT EXISTS calidad;     -- bitacora de incidencias detectadas por el ETL
 
 -- -----------------------------------------------------------------------------
 -- DIMENSIONES
@@ -51,7 +52,7 @@ CREATE TABLE dw.dim_turno (
 
 CREATE TABLE dw.dim_referencia (
     referencia_key   integer   PRIMARY KEY,
-    nombre_original  text      NOT NULL UNIQUE,
+    nombre_estandar  text      NOT NULL UNIQUE,   -- nombre ya corregido (erratas y formato unificados)
     producto         text      NOT NULL,
     contenido_cc     smallint  CHECK (contenido_cc > 0),
     num_colores      smallint  CHECK (num_colores > 0)
@@ -115,11 +116,14 @@ CREATE TABLE dw.fact_produccion (
     referencia_key      integer       NOT NULL REFERENCES dw.dim_referencia (referencia_key),
     operario_key        integer       NOT NULL REFERENCES dw.dim_operario (operario_key),
     meta_key            integer       NOT NULL REFERENCES dw.dim_meta_velocidad (meta_key),
-    pacas_producidas    numeric(10,2) NOT NULL CHECK (pacas_producidas >= 0),
+    pacas_producidas    numeric(10,2) CHECK (pacas_producidas >= 0),   -- NULL si el valor de origen es atipico
+    pacas_origen        numeric(10,2),                                 -- valor tal como viene en el Excel
     horas_programadas   numeric(5,2)  NOT NULL CHECK (horas_programadas >= 0),
-    horas_paro          numeric(6,2)  NOT NULL DEFAULT 0 CHECK (horas_paro >= 0),
-    horas_productivas   numeric(6,2)  GENERATED ALWAYS AS (GREATEST(horas_programadas - horas_paro, 0)) STORED,
-    bandera_calidad     text,                      -- ej. 'atipico', 'cero_pacas'; NULL si esta limpio
+    -- Paro registrado en la propia fila. Los subcodigos adicionales viven en fact_paro.
+    horas_paro          numeric(10,6) NOT NULL DEFAULT 0 CHECK (horas_paro >= 0),
+    horas_productivas   numeric(10,6) GENERATED ALWAYS AS (GREATEST(horas_programadas - horas_paro, 0)) STORED,
+    valida_rendimiento  boolean       NOT NULL,    -- true si hay pacas validas y horas productivas > 0
+    bandera_calidad     text,                      -- reglas de calidad que aplican, separadas por coma
     fila_origen         integer       NOT NULL UNIQUE   -- fila de Excel, para auditar
 );
 
@@ -133,8 +137,8 @@ CREATE TABLE dw.fact_paro (
     operario_key     integer       NOT NULL REFERENCES dw.dim_operario (operario_key),
     paro_key         integer       NOT NULL REFERENCES dw.dim_paro (paro_key),
     area_key         smallint      NOT NULL REFERENCES dw.dim_area_involucrada (area_key),
-    horas_paro       numeric(7,4)  NOT NULL CHECK (horas_paro > 0),
-    minutos_paro     numeric(9,2)  GENERATED ALWAYS AS (horas_paro * 60) STORED,
+    horas_paro       numeric(10,6) NOT NULL CHECK (horas_paro > 0),
+    minutos_paro     numeric(12,4) GENERATED ALWAYS AS (horas_paro * 60) STORED,
     eventos          smallint      NOT NULL DEFAULT 1 CHECK (eventos = 1),
     hoja_origen      text          NOT NULL,
     fila_origen      integer       NOT NULL
@@ -154,6 +158,18 @@ CREATE TABLE dw.fact_registro_horario (
     pacas_hora       numeric(8,2)  NOT NULL CHECK (pacas_hora >= 0),
     minutos_paro     numeric(5,2)  NOT NULL DEFAULT 0 CHECK (minutos_paro BETWEEN 0 AND 60),
     UNIQUE (maquina_key, fecha_hora)   -- una lectura por maquina y hora; evita duplicar la simulacion
+);
+
+-- -----------------------------------------------------------------------------
+-- CALIDAD DE DATOS: cada correccion relevante del ETL deja una fila aqui.
+-- -----------------------------------------------------------------------------
+CREATE TABLE calidad.incidencias (
+    incidencia_id  integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    hoja_origen    text    NOT NULL,
+    fila_origen    integer NOT NULL,
+    regla          text    NOT NULL,   -- ej. duplicado_exacto, pacas_atipicas
+    accion         text    NOT NULL,   -- ej. fila eliminada, valor anulado
+    detalle        text
 );
 
 -- -----------------------------------------------------------------------------
