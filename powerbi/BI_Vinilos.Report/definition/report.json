@@ -5,7 +5,36 @@
       "name": "CY24SU10",
       "reportVersionAtImport": "5.59",
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "BI_Vinilos_Tema.json",
+      "reportVersionAtImport": "5.59",
+      "type": "RegisteredResources"
     }
   },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "BI_Vinilos_Tema.json",
+          "path": "BI_Vinilos_Tema.json",
+          "type": "CustomTheme"
+        }
+      ]
+    }
+  ],
   "layoutOptimization": "None"
 }

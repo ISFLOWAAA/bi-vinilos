@@ -48,10 +48,10 @@ table dim_paro
 		sourceColumn: detalle_nombre
 		summarizeBy: none
 
-	hierarchy 'Jerarquia de paros'
-		level 'Area de impacto'
+	hierarchy 'Jerarquía de paros'
+		level 'Área de impacto'
 			column: area_impacto
-		level 'Codigo de paro'
+		level 'Código de paro'
 			column: nombre_codigo
 		level Subsistema
 			column: subsistema_nombre

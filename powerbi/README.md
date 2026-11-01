@@ -9,7 +9,6 @@ Proyecto en formato **PBIP** (carpetas de texto). Se eligio sobre el `.pbix` por
    *Almacenar el modelo semantico con formato TMDL* y *Almacenar informes con formato mejorado de metadatos (PBIR)*. Reiniciar Power BI.
 3. **Archivo > Abrir informe** y elegir `powerbi/BI_Vinilos.pbip`.
 4. Power BI pide las credenciales de PostgreSQL: pestana **Base de datos**, usuario y contrasena del `.env`. Si ofrece conexion sin cifrar, aceptar (la base corre en tu propio equipo).
-5. **Actualizar** para cargar los datos. Si el puerto de tu `.env` no es 5433: **Transformar datos > Administrar parametros** y cambiar `Servidor`.
 
 Las credenciales **no se guardan en el repositorio**: Power BI las conserva solo en el equipo.
 

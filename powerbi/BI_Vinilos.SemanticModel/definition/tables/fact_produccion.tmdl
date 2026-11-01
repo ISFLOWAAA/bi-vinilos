@@ -97,31 +97,31 @@ table fact_produccion
 
 	measure Pacas = SUM(fact_produccion[pacas_producidas])
 		formatString: #,0
-		displayFolder: 1. Basicas
+		displayFolder: 1. Básicas
 
 	measure 'Horas programadas' = SUM(fact_produccion[horas_programadas])
-		formatString: #,0.0
-		displayFolder: 1. Basicas
+		formatString: #,0
+		displayFolder: 1. Básicas
 
 	measure Jornadas = COUNTROWS(fact_produccion)
 		formatString: #,0
-		displayFolder: 1. Basicas
+		displayFolder: 1. Básicas
 
 	measure 'Horas de paro' = SUM(fact_paro[horas_paro])
-		formatString: #,0.0
-		displayFolder: 1. Basicas
+		formatString: #,0
+		displayFolder: 1. Básicas
 
 	measure 'Eventos de paro' = COUNTROWS(fact_paro)
 		formatString: #,0
-		displayFolder: 1. Basicas
+		displayFolder: 1. Básicas
 
 	measure 'Horas productivas' = [Horas programadas] - [Horas de paro]
-		formatString: #,0.0
-		displayFolder: 1. Basicas
+		formatString: #,0
+		displayFolder: 1. Básicas
 
 	measure 'Pacas por hora programada' = DIVIDE([Pacas], [Horas programadas])
 		formatString: 0.00
-		displayFolder: 1. Basicas
+		displayFolder: 1. Básicas
 
 	measure Disponibilidad = ```
 			VAR hp = [Horas programadas]
@@ -130,7 +130,7 @@ table fact_produccion
 		formatString: 0.0%
 		displayFolder: 2. OEE
 
-	measure 'Pacas validas' = CALCULATE(SUM(fact_produccion[pacas_producidas]), fact_produccion[valida_rendimiento] = TRUE())
+	measure 'Pacas válidas' = CALCULATE(SUM(fact_produccion[pacas_producidas]), fact_produccion[valida_rendimiento] = TRUE())
 		formatString: #,0
 		displayFolder: 2. OEE
 
@@ -143,15 +143,15 @@ table fact_produccion
 		formatString: #,0
 		displayFolder: 2. OEE
 
-	measure Rendimiento = DIVIDE([Pacas validas], [Pacas ideales])
+	measure Rendimiento = DIVIDE([Pacas válidas], [Pacas ideales])
 		formatString: 0.0%
 		displayFolder: 2. OEE
 
-	measure 'Horas de calidad (reproceso y materia prima)' = CALCULATE([Horas de paro], dim_paro[codigo_paro] IN {11, 12})
-		formatString: #,0.0
+	measure 'Horas de calidad' = CALCULATE([Horas de paro], dim_paro[codigo_paro] IN {11, 12})
+		formatString: #,0
 		displayFolder: 2. OEE
 
-	measure 'Calidad (proxy)' = IF([Horas programadas] > 0, MAX(0, 1 - DIVIDE([Horas de calidad (reproceso y materia prima)], [Horas programadas])))
+	measure 'Calidad (proxy)' = IF([Horas programadas] > 0, MAX(0, 1 - DIVIDE([Horas de calidad], [Horas programadas])))
 		formatString: 0.0%
 		displayFolder: 2. OEE
 
@@ -160,11 +160,11 @@ table fact_produccion
 		displayFolder: 2. OEE
 
 	measure 'Horas paro programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = TRUE())
-		formatString: #,0.0
+		formatString: #,0
 		displayFolder: 3. Paros
 
 	measure 'Horas paro no programado' = CALCULATE([Horas de paro], dim_paro[es_programado] = FALSE())
-		formatString: #,0.0
+		formatString: #,0
 		displayFolder: 3. Paros
 
 	measure '% paro no programado' = DIVIDE([Horas paro no programado], [Horas de paro])
@@ -184,43 +184,43 @@ table fact_produccion
 		formatString: 0.0%
 		displayFolder: 3. Paros
 
-	measure 'Fallas electromecanicas (codigo 01)' = CALCULATE(COUNTROWS(fact_paro), dim_paro[codigo_paro] = 1)
+	measure 'Fallas (código 01)' = CALCULATE(COUNTROWS(fact_paro), dim_paro[codigo_paro] = 1)
 		formatString: #,0
 		displayFolder: 3. Paros
 
-	measure 'MTTR (h)' = DIVIDE(CALCULATE([Horas de paro], dim_paro[codigo_paro] = 1), [Fallas electromecanicas (codigo 01)])
+	measure 'MTTR (h)' = DIVIDE(CALCULATE([Horas de paro], dim_paro[codigo_paro] = 1), [Fallas (código 01)])
 		formatString: 0.00
 		displayFolder: 3. Paros
 
-	measure 'MTBF (h)' = DIVIDE([Horas productivas], [Fallas electromecanicas (codigo 01)])
+	measure 'MTBF (h)' = DIVIDE([Horas productivas], [Fallas (código 01)])
 		formatString: #,0.0
 		displayFolder: 3. Paros
 
-	measure 'Pacas anio anterior' = CALCULATE([Pacas], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+	measure 'Pacas año anterior' = CALCULATE([Pacas], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
 		formatString: #,0
 		displayFolder: 4. Inteligencia de tiempo
 
-	measure 'Variacion pacas vs anio anterior' = DIVIDE([Pacas] - [Pacas anio anterior], [Pacas anio anterior])
-		formatString: 0.0%
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Pacas acumuladas del anio' = TOTALYTD([Pacas], dim_fecha[fecha])
-		formatString: #,0
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Horas de paro anio anterior' = CALCULATE([Horas de paro], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
-		formatString: #,0.0
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'OEE anio anterior' = CALCULATE([OEE], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
-		formatString: 0.0%
-		displayFolder: 4. Inteligencia de tiempo
-
-	measure 'Variacion OEE (puntos)' = [OEE] - [OEE anio anterior]
+	measure 'Variación pacas vs año anterior' = DIVIDE([Pacas] - [Pacas año anterior], [Pacas año anterior])
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 4. Inteligencia de tiempo
 
-	measure 'OEE promedio movil 3 meses' = CALCULATE([OEE], DATESINPERIOD(dim_fecha[fecha], MAX(dim_fecha[fecha]), -3, MONTH))
+	measure 'Pacas acumuladas del año' = TOTALYTD([Pacas], dim_fecha[fecha])
+		formatString: #,0
+		displayFolder: 4. Inteligencia de tiempo
+
+	measure 'Horas de paro año anterior' = CALCULATE([Horas de paro], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+		formatString: #,0
+		displayFolder: 4. Inteligencia de tiempo
+
+	measure 'OEE año anterior' = CALCULATE([OEE], SAMEPERIODLASTYEAR(dim_fecha[fecha]))
+		formatString: 0.0%
+		displayFolder: 4. Inteligencia de tiempo
+
+	measure 'Variación OEE (puntos)' = [OEE] - [OEE año anterior]
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. Inteligencia de tiempo
+
+	measure 'OEE promedio móvil 3 meses' = CALCULATE([OEE], DATESINPERIOD(dim_fecha[fecha], MAX(dim_fecha[fecha]), -3, MONTH))
 		formatString: 0.0%
 		displayFolder: 4. Inteligencia de tiempo
 

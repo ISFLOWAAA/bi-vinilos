@@ -2,15 +2,43 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
   "name": "nav2",
   "position": {
-    "x": 20,
-    "y": 10,
+    "x": 24,
+    "y": 14,
     "z": 0,
-    "height": 50,
-    "width": 900,
+    "height": 38,
+    "width": 580,
     "tabOrder": 0
   },
   "visual": {
     "visualType": "pageNavigator",
-    "drillFilterOtherVisuals": true
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
   }
 }

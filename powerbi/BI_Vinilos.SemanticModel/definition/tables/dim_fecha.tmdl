@@ -74,13 +74,13 @@ table dim_fecha
 		summarizeBy: none
 
 	hierarchy Calendario
-		level Anio
+		level Año
 			column: anio
 		level Trimestre
 			column: trimestre
 		level Mes
 			column: nombre_mes
-		level Dia
+		level Día
 			column: dia
 
 	partition dim_fecha = m

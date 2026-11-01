@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
   "name": "b_turno",
   "position": {
-    "x": 240,
-    "y": 500,
+    "x": 820,
+    "y": 514,
     "z": 0,
-    "height": 200,
-    "width": 500,
+    "height": 182,
+    "width": 436,
     "tabOrder": 0
   },
   "visual": {

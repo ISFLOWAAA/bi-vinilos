@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
   "name": "pareto",
   "position": {
-    "x": 240,
-    "y": 185,
+    "x": 24,
+    "y": 316,
     "z": 0,
-    "height": 515,
-    "width": 620,
+    "height": 380,
+    "width": 640,
     "tabOrder": 0
   },
   "visual": {
