@@ -37,3 +37,6 @@ desktop.ini
 
 # --- Simulacion: bandera local para provocar una falla en la demo ---
 simulacion/falla.flag
+
+# --- Hoja personal con credenciales y configuracion del equipo (NUNCA se sube) ---
+privado/
