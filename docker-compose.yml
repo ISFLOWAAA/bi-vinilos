@@ -1,0 +1,26 @@
+# Servicios del proyecto. Las credenciales salen del archivo .env (no versionado).
+# Levantar:  docker compose up -d      Apagar:  docker compose down
+# Borrar tambien los datos:  docker compose down -v
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: bi_vinilos_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data                      # persistencia de los datos
+      - ./sql/init:/docker-entrypoint-initdb.d:ro            # DDL y semillas (solo la primera vez)
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
