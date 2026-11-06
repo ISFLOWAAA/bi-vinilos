@@ -22,7 +22,7 @@ sys.path.insert(0, str(RAIZ / "etl"))
 import config  # noqa: E402
 
 CARPETA = Path(__file__).resolve().parent
-SALIDA = CARPETA / "BI_ProyectoFinal_Asprilla_Grisales.pdf"
+SALIDA = CARPETA / "informe_completo.pdf"   # version larga y opcional; el informe OFICIAL lo genera construir_docx.py
 TEMPORAL = CARPETA / "_informe.html"
 CAPTURAS = RAIZ / "docs" / "capturas"
 REPO_URL = "https://github.com/ISFLOWAAA/bi-vinilos"

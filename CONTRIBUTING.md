@@ -27,7 +27,7 @@ Los commits pequeños y con un mensaje claro hacen visible el aporte de cada int
 - **Nunca subir contraseñas.** El `.env` está ignorado; revisar con `git status` que no aparezca.
 - Si se cambia el ETL: `python -m pytest etl/tests` y volver a correr `etl/main.py` (debe terminar en `TODO CUADRA`).
 - Si se cambia el DDL (`sql/init/`): recrear la base con `docker compose down -v` y `iniciar.ps1`, porque esos archivos solo se ejecutan con la base vacía.
-- Si se cambia un documento: regenerar el informe con `python docs/informe/construir_pdf.py` (ver [docs/informe/](docs/informe/)).
+- Si se cambia un documento: regenerar el informe oficial con `python docs/informe/construir_docx.py` (necesita Microsoft Word; ver [docs/informe/](docs/informe/)).
 - Si se edita el Power BI en el programa, **cerrar y guardar antes de hacer commit**; Power BI reescribe los archivos del proyecto al guardar.
 
 ## Dónde está cada cosa

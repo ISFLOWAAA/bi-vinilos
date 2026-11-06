@@ -27,7 +27,7 @@ sys.path.insert(0, str(RAIZ / "etl"))
 CARPETA = Path(__file__).resolve().parent
 FIGURAS = CARPETA / "figuras"
 CAPTURAS = RAIZ / "docs" / "capturas"
-SALIDA_DOCX = CARPETA / "BI_ProyectoFinal_Asprilla_Grisales_resumido.docx"
+SALIDA_DOCX = CARPETA / "BI_ProyectoFinal_Asprilla_Grisales.docx"   # informe OFICIAL (su PDF sale con el mismo nombre)
 REPO_URL = "https://github.com/ISFLOWAAA/bi-vinilos"
 INTEGRANTES = ["Andrés Felipe Asprilla Pedroza", "Jorge Andrés Grisales"]
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
