@@ -40,3 +40,7 @@ simulacion/falla.flag
 
 # --- Hoja personal con credenciales y configuracion del equipo (NUNCA se sube) ---
 privado/
+
+# --- Informe resumido: se versionan el generador y las figuras; el .docx/.pdf generados se suben solo cuando se aprueban ---
+docs/informe/*_resumido.docx
+docs/informe/*_resumido.pdf
