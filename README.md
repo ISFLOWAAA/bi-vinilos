@@ -26,6 +26,15 @@ Hallazgos y recomendaciones para la gerencia: [docs/resumen_ejecutivo.md](docs/r
 
 ![Arquitectura: del Excel al modelo estrella y de ahí a Power BI y Grafana](docs/arquitectura.svg)
 
+## Cómo recorrer este proyecto
+
+| Si tienes… | Haz esto |
+|---|---|
+| **5 minutos** | Lee este README, mira las capturas de arriba y el [resumen ejecutivo](docs/resumen_ejecutivo.md) |
+| **15 minutos** | Añade el [diagnóstico de la fuente](docs/diagnostico/diagnostico_fuente.md), el [modelo dimensional](docs/modelo_dimensional.md) y la [arquitectura](docs/arquitectura.md) |
+| **Ganas de verlo funcionando** | Sigue el *Inicio rápido* de abajo: unos minutos y un solo comando |
+| **Interés en entenderlo todo** | Recorre el [índice de documentación](docs/README.md). Si un término no te suena (OEE, MTTR, esquema en estrella…), está en el [glosario](docs/glosario.md) |
+
 ## Inicio rápido
 
 **Requisitos:** Git, Docker Desktop (en marcha) y Python 3.11 o superior. Power BI Desktop solo si se quiere abrir el tablero analítico.
@@ -88,8 +97,13 @@ bi-vinilos/
 | `simulacion/` | [simulacion/README.md](simulacion/README.md): qué simula y guion para la demostración |
 | `grafana/` | [grafana/README.md](grafana/README.md): paneles, variables y la alerta |
 | `powerbi/` | [powerbi/README.md](powerbi/README.md): cómo abrirlo, modelo, medidas DAX y páginas |
+| `sql/` | [sql/README.md](sql/README.md): qué hace cada script de `init/` y las 10 consultas analíticas |
+| `data/` | [data/README.md](data/README.md): la fuente original y cómo se usa |
+| `docs/` | [docs/README.md](docs/README.md): índice de lectura de toda la documentación |
 
 ## Documentación
+
+Índice con una guía de lectura: [docs/README.md](docs/README.md). Términos técnicos explicados: [docs/glosario.md](docs/glosario.md).
 
 | Documento | Contenido |
 |---|---|
