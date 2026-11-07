@@ -1,0 +1,28 @@
+# Git y control de versiones
+.git
+.gitignore
+.gitattributes
+.github
+
+# Entornos virtuales y caches de Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Archivos de configuracion local y credenciales
+.env
+*.local
+
+# Datos crudos y reportes generados pesados
+data/raw/
+docs/informe/*.docx
+docs/informe/*.pdf
+docs/capturas/
+
+# Archivos temporales de sistema operativo
+.DS_Store
+Thumbs.db
