@@ -11,14 +11,26 @@ Guía corta para trabajar en equipo en este repositorio.
 
 ## Flujo de trabajo
 
+Para mantener el historial limpio y ordenado, se recomienda el uso de ramas temáticas (*feature branches*) y la convención de commits estandarizada:
+
+```bash
+git pull                            # traer lo último de main
+git checkout -b feature/nombre-funcionalidad  # crear rama de feature (o fix/..., docs/...)
+# ... realizar cambios y verificar ...
+git add <archivos>                  # nunca "git add ." sin revisar con "git status"
+git commit -m "FEATURE: descripción clara del cambio"
+git push -u origin feature/nombre-funcionalidad  # abrir Pull Request para revisión en equipo
 ```
-git pull                        # traer lo último
-git checkout -b mi-cambio       # trabajar en una rama
-# ... editar ...
-git add <archivos>              # nunca "git add ." sin revisar con "git status"
-git commit -m "Describe el cambio"
-git push -u origin mi-cambio    # y abrir un Pull Request en GitHub para que el compañero lo revise
-```
+
+### Convención de Commits
+
+Utilizar prefijos en mayúsculas para clasificar claramente cada contribución:
+
+- `FEATURE: <mensaje>`: Nuevas funcionalidades, indicadores, capacidades del ETL o tableros.
+- `FIX: <mensaje>`: Corrección de errores en scripts, consultas SQL o visualizaciones.
+- `DOCS: <mensaje>`: Actualizaciones en la documentación, glosario o informe final.
+- `TEST: <mensaje>`: Incorporación o ajuste de pruebas unitarias.
+- `REFACTOR: <mensaje>`: Mejoras de estructura de código o limpieza sin alterar el comportamiento.
 
 Los commits pequeños y con un mensaje claro hacen visible el aporte de cada integrante.
 

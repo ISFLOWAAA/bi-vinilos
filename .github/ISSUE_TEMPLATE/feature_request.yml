@@ -1,0 +1,56 @@
+name: "Solicitud de Feature"
+description: "Propón una nueva funcionalidad, indicador, transformación o tablero para el proyecto de BI"
+title: "[FEATURE]: "
+labels: ["enhancement", "feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por proponer una nueva característica para el proyecto **BI Vinilos**.
+        Por favor diligencia la siguiente estructura para evaluar la viabilidad técnica y el valor analítico.
+  - type: textarea
+    id: resumen
+    attributes:
+      label: "Resumen de la Feature"
+      description: "Explica brevemente la funcionalidad o mejora propuesta."
+      placeholder: "¿Qué nueva capacidad analítica, transformación o ajuste se debe agregar?"
+    validations:
+      required: true
+  - type: textarea
+    id: valor-negocio
+    attributes:
+      label: "Justificación de Negocio / Inteligencia de Negocios"
+      description: "¿Qué necesidad operativa o gerencial resuelve? (ej. cálculo de OEE, visibilidad de paros, toma de decisiones)."
+      placeholder: "Beneficio esperado para planta, supervisores o gerencia..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: componentes
+    attributes:
+      label: "Componentes involucrados"
+      description: "Selecciona los módulos del proyecto que se verían impactados:"
+      options:
+        - label: "ETL en Python (extracción, limpieza, transformación, validación)"
+        - label: "Modelo Dimensional / Base de datos PostgreSQL (DDL, vistas, semillas)"
+        - label: "Tablero analítico Power BI (modelo semántico, medidas DAX, visualizaciones)"
+        - label: "Monitoreo en tiempo real Grafana (paneles, alertas)"
+        - label: "Módulo de simulación hora a hora"
+        - label: "Documentación técnica / Informe final"
+    validations:
+      required: true
+  - type: textarea
+    id: criterios-aceptacion
+    attributes:
+      label: "Criterios de Aceptación"
+      description: "Condiciones medibles que deben cumplirse para dar la feature por completada."
+      placeholder: "- [ ] Pasa las pruebas unitarias con pytest\n- [ ] Los totales cuadran con la fuente de datos\n- [ ] El tablero refleja la métrica sin degradar el rendimiento"
+    validations:
+      required: true
+  - type: textarea
+    id: consideraciones-tecnicas
+    attributes:
+      label: "Consideraciones Técnicas y de Seguridad"
+      description: "Manejo de datos sensibles (PII), compatibilidad con PostgreSQL en Docker, volúmenes, etc."
+      placeholder: "Detalles sobre tipos de datos, seudonimización o configuración requerida..."
+    validations:
+      required: false
