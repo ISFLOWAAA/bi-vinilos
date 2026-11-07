@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Documentación y Glosario del Proyecto"
+    url: "https://github.com/ISFLOWAAA/bi-vinilos/blob/main/docs/README.md"
+    about: "Consulta la arquitectura, catálogo de indicadores y preguntas frecuentes antes de abrir un issue."
+  - name: "Guía de Colaboración (CONTRIBUTING)"
+    url: "https://github.com/ISFLOWAAA/bi-vinilos/blob/main/CONTRIBUTING.md"
+    about: "Revisa el flujo de ramas de feature y convenciones de commit para trabajar en equipo."

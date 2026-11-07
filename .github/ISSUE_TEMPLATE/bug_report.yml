@@ -1,0 +1,55 @@
+name: "Reporte de Error / Bug"
+description: "Informa sobre un problema o comportamiento inesperado en el ETL, base de datos o tableros"
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportar una incidencia en el proyecto **BI Vinilos**.
+        Por favor incluye la mayor cantidad de contexto posible para poder reproducir y resolver el fallo.
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: "Descripción del Error"
+      description: "Explica de forma concisa qué falló o qué comportamiento anómalo se presentó."
+      placeholder: "¿Qué ocurrió? ¿Cuál fue el mensaje de error o discrepancia observada?"
+    validations:
+      required: true
+  - type: checkboxes
+    id: componentes
+    attributes:
+      label: "Módulo afectado"
+      options:
+        - label: "ETL / Limpieza / Carga de datos (`etl/`)"
+        - label: "Base de Datos PostgreSQL / Esquema DW (`sql/`)"
+        - label: "Tablero Power BI (`powerbi/`)"
+        - label: "Tablero o Alertas de Grafana (`grafana/`)"
+        - label: "Scripts de inicio / Docker (`iniciar.ps1`, `docker-compose.yml`)"
+        - label: "Simulador de producción (`simulacion/`)"
+    validations:
+      required: true
+  - type: textarea
+    id: pasos-reproducir
+    attributes:
+      label: "Pasos para reproducir el fallo"
+      description: "Comandos ejecutados o acciones realizadas paso a paso:"
+      placeholder: "1. Ejecutar '.venv\\Scripts\\python etl/main.py'\n2. Observar el error..."
+    validations:
+      required: true
+  - type: textarea
+    id: comportamiento-esperado
+    attributes:
+      label: "Comportamiento esperado"
+      description: "¿Qué debió haber ocurrido según las especificaciones del proyecto?"
+      placeholder: "El ETL debió finalizar con 'TODO CUADRA'..."
+    validations:
+      required: true
+  - type: textarea
+    id: logs-evidencias
+    attributes:
+      label: "Logs, trazas o capturas"
+      description: "Copia aquí la salida de la terminal o traceback completo:"
+      render: shell
+    validations:
+      required: false
