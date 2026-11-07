@@ -1,0 +1,30 @@
+[project]
+name = "bi-vinilos"
+version = "1.0.0"
+description = "Proyecto de Inteligencia de Negocios para lineas de produccion de vinilos y temperas"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Andres Felipe Asprilla Pedroza", email = "andresfel550@gmail.com" },
+    { name = "Jorge Andres Grisales", email = "jandressoftware@gmail.com" }
+]
+
+[tool.pytest.ini_options]
+testpaths = ["etl/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+filterwarnings = ["ignore::DeprecationWarning"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.isort]
+profile = "black"
+line_length = 100
