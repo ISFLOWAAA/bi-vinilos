@@ -42,6 +42,16 @@ Los commits pequeños y con un mensaje claro hacen visible el aporte de cada int
 - Si se cambia un documento: regenerar el informe oficial con `python docs/informe/construir_docx.py` (necesita Microsoft Word; ver [docs/informe/](docs/informe/)).
 - Si se edita el Power BI en el programa, **cerrar y guardar antes de hacer commit**; Power BI reescribe los archivos del proyecto al guardar.
 
+## Atajos útiles de desarrollo
+
+Se incluye un `Makefile` con comandos rápidos para la terminal:
+
+- `make test`: Ejecuta toda la suite de pruebas unitarias con `pytest`.
+- `make check-db`: Diagnóstico de conectividad y latencia con PostgreSQL.
+- `make lint`: Validación de compilación de scripts en Python.
+- `make up` / `make down`: Arranque y apagado de los contenedores Docker.
+- `make clean`: Limpieza de caché de pruebas y bytecode.
+
 ## Dónde está cada cosa
 
 | Quiero cambiar… | Archivo |
